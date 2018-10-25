@@ -9,6 +9,7 @@ Sayalee Shankar Bhusari
 ## Team Name: Pheonix
 
 ### Project Idea 1: SalePoint - Best place to buy from during Black Friday
+Every year during the Black Friday sale, a horde of people can be seen waiting to get their item of desire .People often get confused in selecting the best place to buy from for different articles. In all that hurry , they might miss a chance to buy their article as it runs out of stock. The model will take training data with previous year shopping figures so to decide what place is best according to the trend. After training the model, it should be able to predict the best store to buy anything at a reasonable price. When the user inputs an item he/she wants to purchase, it should be able to recommend stores based on previous figures.
 
 
 ### Project Idea 3: TakeMeHome! - A Campus Ride Companion App
