@@ -10,20 +10,20 @@ Sayalee Shankar Bhusari
 
 ### Project Idea 1: SalePoint - Best place to buy from during Black Friday
 
-Every year during the Black Friday sale, a horde of people can be seen waiting to get their item of desire .People often get confused in selecting the best place to buy from for different articles. In all that hurry , they might miss a chance to buy their article as it runs out of stock. The model will take training data with previous year shopping figures so to decide what place is best according to the trend. After training the model, it should be able to predict the best store to buy anything at a reasonable price. When the user inputs an item he/she wants to purchase, it should be able to recommend stores based on previous figures.
+Every year during the Black Friday sale a horde of people line up outside the stores, hoping to get the best deal of their lives. Most of these people are left confused on seeing the humongous list of options where they might possibly find the product they desire, at *gauranteed* lowest price. In all the fuss, the product runs out of stock, and they miss the chance to even buy that article. Our proposed model takes training data of Black Friday prices and shopping trends from previous years, so as to decide which store would fetch potentially the best price this year, according to the previous trends. Our model would also take into account that the store selling the product at the lowest price could be selling fake/expired products. Therefore after training, the model should be able to predict the store where one can find the product at the lowest possible price with reasonable quality, if not the best. When the user inputs an item they want to purchase, the model would recommend stores and also preview previous ratings and reviews so that the user can make the final call.
 
-Methodology: Sentiment analysis is done on older reviews to derive the places with best reviews on various products  
+Methodology: Dataset is analysed to determine the price trends for the product being searched for. Sentiment analysis is carried out on product descriptions and corresponding reviews so as to derive the places with best reviews. The dataset analysis is combined with the reviews analysis and HighCharts is used to graphically present to the user, the best possible store for the searched product.
 
-Data set: The project can be done be using datasets for example Kaggle datasets.
+Data set: The project can be accomplished by using opensource Black Friday Datasets.
 For example: https://www.kaggle.com/mehdidag/black-friday
 
 
 
 ### Project Idea 2: Will It Sell? - Android App Success Predictor
 
-Ever made an app that got you pulling all-nighters for weeks, only to get the lowest possible ranking on the app store? Sure feels terrible. Next time you build an app, use this prediction system to assess the success of your app before you start off with the development. Our prediction system applies sentiment analysis on the description you provide and provides you with a detailed analysis of your apps selling quotient.
+Ever made an app that got you pulling all-nighters for weeks, only to get the lowest possible ranking on the app store? Feels terrible, right? Next time you build an app, use this prediction system to assess the success of your app before you start banging away at your keyboard to get that app on the app store. Our prediction system applies sentiment analysis on the app description you provide and it provides you back with a detailed analysis of your app's potential selling quotient.
 
-Methodology: Apply SVM on the Google App Store dataset based on attributes like high rating, good reviews, large number of downloads, and so on. When the user searches for their proposed app description, our system determines the probable outcome as success or failure and the detailed analysis.
+Methodology: Apply SVM on the Google App Store dataset based on attributes like high rating, good reviews, large number of downloads, and so on. When the user inputs their proposed app description, our system determines the probable outcome as success or failure and the detailed analysis.
 
 Dataset: https://www.kaggle.com/lava18/google-play-store-apps
 
