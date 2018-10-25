@@ -14,6 +14,9 @@ Every year during the Black Friday sale, a horde of people can be seen waiting t
 
 Methodology: Sentiment analysis is done on older reviews to derive the places with best reviews on various products  
 
+Data set: The project can be done be using datasets for example Kaggle datasets.
+For example: https://www.kaggle.com/mehdidag/black-friday
+
 
 ### Project Idea 3: TakeMeHome! - A Campus Ride Companion App
 Attacks on students while traveling back home from campus are frequent. Being from different majors and having different lecture timings, it gets difficult for the students to travel in groups, even when they live on the same route. The app will help match them to other users AKA *travel companions*, any time of the day, based on their route. Before they choose to start off together, users would be able to assess the matched companion's credibility based on their ratings. As an added security measure, only users with an edu id will be able to sign up for the service. APIs of VTA-Transit/Uber/etc would be attached, for companions that use some mode of transport on their way.
