@@ -23,6 +23,11 @@ For example: https://www.kaggle.com/mehdidag/black-friday
 
 Ever made an app that got you pulling all-nighters for weeks, only to get the lowest possible ranking on the app store? Sure feels terrible. Next time you build an app, use this prediction system to assess the success of your app before you start off with the development. Our prediction system applies sentiment analysis on the description you provide and provides you with a detailed analysis of your apps selling quotient.
 
+Methodology: Apply SVM on the Google App Store dataset based on attributes like high rating, good reviews, large number of downloads, and so on. When the user searches for their proposed app description, our system determines the probable outcome as success or failure and the detailed analysis.
+
+Dataset: https://www.kaggle.com/lava18/google-play-store-apps
+
+
 
 ### Project Idea 3: TakeMeHome! - A Campus Ride Companion App
 Attacks on students while traveling back home from campus are frequent. Being from different majors and having different lecture timings, it gets difficult for the students to travel in groups, even when they live on the same route. The app will help match them to other users AKA *travel companions*, any time of the day, based on their route. Before they choose to start off together, users would be able to assess the matched companion's credibility based on their ratings. As an added security measure, only users with an edu id will be able to sign up for the service. APIs of VTA-Transit/Uber/etc would be attached, for companions that use some mode of transport on their way.
