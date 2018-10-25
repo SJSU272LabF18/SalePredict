@@ -8,7 +8,7 @@ Sayalee Shankar Bhusari
 
 ## Team Name: Pheonix
 
-### Project Idea 1: SalePoint - Best place to buy from during Black Friday
+### Project Idea 1: SalePoint - Best store to buy any product, during Black Friday Sale
 
 Every year during the Black Friday sale a horde of people line up outside the stores, hoping to get the best deal of their lives. Most of these people are left confused on seeing the humongous list of options where they might possibly find the product they desire, at *gauranteed* lowest price. In all the fuss, the product runs out of stock, and they miss the chance to even buy that article. Our proposed model takes training data of Black Friday prices and shopping trends from previous years, so as to decide which store would fetch potentially the best price this year, according to the previous trends. Our model would also take into account that the store selling the product at the lowest price could be selling fake/expired products. Therefore after training, the model should be able to predict the store where one can find the product at the lowest possible price with reasonable quality, if not the best. When the user inputs an item they want to purchase, the model would recommend stores and also preview previous ratings and reviews so that the user can make the final call.
 
