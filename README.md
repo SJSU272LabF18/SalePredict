@@ -21,6 +21,7 @@ For example: https://www.kaggle.com/mehdidag/black-friday
 
 ### Project Idea 2: Will It Sell? - Android App Success Predictor
 
+Ever made an app that got you pulling all-nighters for weeks, only to get the lowest possible ranking on the app store? Sure feels terrible. Next time you build an app, use this prediction system to assess the success of your app before you start off with the development. Our prediction system applies sentiment analysis on the description you provide and provides you with a detailed analysis of your apps selling quotient.
 
 
 ### Project Idea 3: TakeMeHome! - A Campus Ride Companion App
