@@ -17,3 +17,5 @@ Methodology: Apply SVM on the Google App Store dataset based on attributes like 
 Dataset: https://www.kaggle.com/lava18/google-play-store-apps
 
 Professor's Comment: I would also predict key metrics such as number of downloads by geography and age group etc.. 
+
+Design Mockup: https://invis.io/C7P3GP56X5K
