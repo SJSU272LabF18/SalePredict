@@ -6,7 +6,7 @@ Harsh Agarwal,
 Vaishali Koul,
 Sayalee Shankar Bhusari
 
-## Team Name: Pheonix
+## Team Name: Phoenix
 
 ### Approved Project Idea: Will It Sell? - Android App Success Predictor
 
