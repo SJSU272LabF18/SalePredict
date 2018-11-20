@@ -50,3 +50,13 @@ print (all_filtered_words_tokens)
 #NOTE - Can words_tokens_1 become a set so then when we run find  when description is entered, it is O(1)
 #NOTE - In Stopwords text file you can add words such as app, application, apple, etc that are bound to have more frequency. In this way you might not have to use tf-idf from skikit learn but would this method be slower?
 #NOTE - Is Stemming required
+
+def jaccard_similarity(query, document):
+    intersection = set(query).intersection(set(document))
+    union = set(query).union(set(document))
+    return len(intersection)/len(union)
+#jaccard_similarity biased towards documents having larger length as union increases with increase in tokens
+print (jaccard_similarity(filtered_sentence_1, filtered_sentence_2))
+
+# Stemming
+#Cosine and word to vector
