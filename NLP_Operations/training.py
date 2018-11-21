@@ -1,7 +1,9 @@
 import nltk
 import string
 #nltk.download('stopwords')
-#nltk.download('punkt')
+#nltk.download('punkt') 
+#nltk.download('averaged_perceptron_tagger') ## Used for POS tagging
+#nltk.download('wordnet') ## Dictionary
 from nltk.corpus import stopwords
 #from nltk.tokenize import word_tokenize
 from nltk.tokenize import RegexpTokenizer
@@ -33,12 +35,8 @@ sentence_4 = sentence_4.lower()
 tokenizer = RegexpTokenizer(r'\w+')
 
 
-
-## Stemming - Is Stemming required? Which one?
-## POS tagging & Lemmatization - But with or without the stopwords and punctuation? - Does lemmatization require 'a', 'the', etc and such context to run properly?
-## Either use Stemming or use lemmatization
-
-
+'''
+## Stemming - Is Stemming required? Which one? If stemming is done then for eg. Unversity is stemmed to Univers which can be confused with Universal
 ## Porter Stemmer
 stemmer = PorterStemmer()
 def stem_tokens(tokens, stemmer):
@@ -47,20 +45,31 @@ def stem_tokens(tokens, stemmer):
         if(item not in stop_words):
             stemmed.append(stemmer.stem(item))
     return stemmed    
+'''
+
+
+## POS tagging & Lemmatization - But with or without the stopwords and punctuation? - Does lemmatization require 'a', 'the', etc and such context to run properly?
+
+
+
+
+## Either use Stemming or use lemmatization
 
 
 words_tokens_1 = tokenizer.tokenize(sentence_1)
+## Extracting and storing tokens from a token array while not storing stop words
 #filtered_sentence_1 = [w for w in words_tokens_1 if not w in stop_words]
-stemmed_1 = stem_tokens(words_tokens_1, stemmer)
+## Calling Stemming function
+#stemmed_1 = stem_tokens(words_tokens_1, stemmer)
 
 words_tokens_2 = tokenizer.tokenize(sentence_2)
-stemmed_2 = stem_tokens(words_tokens_2, stemmer)
+
 
 words_tokens_3 = tokenizer.tokenize(sentence_3)
-stemmed_3 = stem_tokens(words_tokens_3, stemmer)
+
 
 words_tokens_4 = tokenizer.tokenize(sentence_4)
-stemmed_4 = stem_tokens(words_tokens_4, stemmer)
+
 
 count_1 = Counter(stemmed_1)
 print(count_1)
@@ -84,4 +93,5 @@ def jaccard_similarity(query, document):
 # Cosine and word to vector
 
 # Run all above functions on a new input
+# Weighted Average
 # Find Similarity
