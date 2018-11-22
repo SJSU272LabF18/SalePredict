@@ -10,6 +10,10 @@ from nltk.tokenize import RegexpTokenizer
 #from nltk.stem.porter import *
 from collections import Counter
 
+## Refer - https://www.youtube.com/watch?v=05ONoGfmKvA
+## Refer - https://www2.cs.duke.edu/courses/spring14/compsci290/assignments/lab02.html
+## Refer - https://www.datacamp.com/community/tutorials/text-analytics-beginners-nltk
+
 ''' NOTE - # is Commented Code and ## is just Comment'''
 ## stop_words stores all the stop words such as 'the', 'a', etc that would have to be removed from the dataset of description, and the description entered 
 stop_words = set(stopwords.words('english'))
