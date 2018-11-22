@@ -41,3 +41,9 @@ print(vector.shape)
 ## print each document vector and its index   
 for j in range(len(all_documents_encoded)):
     print (all_documents_encoded[j], j)
+    
+## Cosine Similarity, euclidean distance
+## Run all above functions on a new input
+## Naive Bayes
+## Weighted Average
+## Find Similarity     
