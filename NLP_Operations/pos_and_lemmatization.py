@@ -5,6 +5,12 @@ lemmatizer = WordNetLemmatizer()
 
 ## Either use Stemming or use lemmatization - Lemmatization would probably be better for our use case
 
+## Refer - https://stackoverflow.com/questions/15586721/wordnet-lemmatization-and-pos-tagging-in-python
+## Refer - https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
+## Refer - https://www.datacamp.com/community/tutorials/text-analytics-beginners-nltk
+## Refer - https://www2.cs.duke.edu/courses/spring14/compsci290/assignments/lab02.html
+
+
 tokens1 = ['My', 'name', 'is', 'Clark', 'Kent', 'and', 'i', 'am', 'A', 'student', 'at', 'the', '-', 'SAN', 'jose', 'state', 'university']
 tokens2 = ['my', 'name', 'is', 'clark', 'kent', 'and', 'i', 'am', 'a', 'student', 'at', 'the', 'SAN', 'jose', 'state', 'university']
 
