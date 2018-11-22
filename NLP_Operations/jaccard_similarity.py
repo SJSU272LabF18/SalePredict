@@ -1,3 +1,4 @@
+## Refer - http://billchambers.me/tutorials/2014/12/21/tf-idf-explained-in-python.html
 def jaccard_similarity(query, document):
     intersection = set(query).intersection(set(document))
     union = set(query).union(set(document))
