@@ -1,8 +1,8 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction import text
+import numpy as np
 
-#import numpy as np
 ''' NOTE - # is Commented Code and ## is just Comment and ### is Sub-Comment for the nearest ## above'''
 
 ## Refer - https://machinelearningmastery.com/prepare-text-data-machine-learning-scikit-learn/
@@ -53,7 +53,8 @@ print(vector.shape)
 for j in range(len(all_documents_encoded)):
     print (all_documents_encoded[j], j)
     
-## Handling unseen words, stop words, punctuations, and next lines in the test sentence
+## Handling unseen words, stop words, punctuations, and next lines in the test sentence and form the sparse array of test sentence
+## is there a function in sklearn to handle new and unseen words in the testing sentences?
 tokenizer = vectorizer.build_tokenizer()
 test_sentence_tokens = tokenizer(test_sentence)
 print (test_sentence_tokens)    
@@ -64,6 +65,7 @@ stop_words = text.ENGLISH_STOP_WORDS
 test_sentence_tokens_filtered = []
 for i in range(len(test_sentence_tokens)):
     ## if the current token lowercased is not in stop words and is present in vocabulary, then append the token to a token array
+    ## vectorizer.vocabulary_ is a map therefore get() is O(1). get() returns index of that word if found in vocab. If not found it returns None
     if not test_sentence_tokens[i].lower() in stop_words and vectorizer.vocabulary_.get(test_sentence_tokens[i].lower()) != None :
         test_sentence_tokens_filtered.append(test_sentence_tokens[i].lower())
 
@@ -75,12 +77,13 @@ print (test_sentence_tokens_filtered)
 test_sentence_modified = " ".join(test_sentence_tokens_filtered)
 ## "".join(['a','b','c']) means Join all elements of the array, separated by the string "". In the same way, " hi ".join(["jim", "bob", "joe"]) will create "jim hi bob hi joe"
 
-test_sentence_vector = vectorizer.transform([test_sentence_modified]) ## make sparse array
-test_sentence_encoded = (test_sentence_vector.toarray())
+## make sparse array of filtered test sentence
+test_document_vector = vectorizer.transform([test_sentence_modified])
+test_document_encoded = (test_document_vector.toarray()) 
 
-print (test_sentence_encoded)
+print (test_document_encoded)
 
-## NOTE - There are 2 approaches for creating or prediction model
+## NOTE - There are 2 approaches for creating our prediction model
 ## 1st (could be more accurate) - Our model is a x-y plot in which each point represents a sparse array on x and the rating associated on y. Is it possible to assign a unique number to each sparse array? THis number would be on x and the associated rating would be on y. Then when form the whole graph and when a new sparse array (from new description) is entered then we match its y from the graph
 ## 2nd - Our model finds k szimilar sparse arrays to our new sparse array. The ratings associated with theses k similar arrays are weighted averaged which gives us the prediced rating
 ### In 2nd approach the innate idea is that we assume that the average rating of the apps matching the new description can probably be the potential rating, apps with similar description are assumed to have similar ratings. Ideally also, this should be true. But in real life many other constraints act such as is the app free or is it paid, where is the app being release, etc and these constraints drive the app rating, which is not handled by this approach. It could be possible that the new description is very similar to a particular set of apps but when actually deployed, it gets very low ratings than actual due to some unforeseen reasons. This is somewhat handled by using weighted average. But then we should also keep in mind that ML is statistics only, and real world constraints and ambiguity cannot all be accounted for. Keep in mind that ML basically tells us how y should be for a new x in ideal conditions. But due to real world constraints, ideal case is not experienced generally. One thing we can do to take into the real world constraints is that when the averaging model is complete then we add improvements such as taking into account if the apps are paid or not, demographics of the app, technologies used and so on. 
@@ -92,26 +95,34 @@ print (test_sentence_encoded)
 ### Refer - https://towardsdatascience.com/overview-of-text-similarity-metrics-3397c4601f50
 ### Jaccard similarity takes only unique set of words for each document. This means that if we repeat the word “friend” in a description several times, cosine similarity changes for each new "friend" word added to the description but Jaccard similarity does not change.
 ### Therefore we use Cosine Similarity
-## Run all above functions on a new input
-## Find Weighted Average of Ratings
 
-'''
-## Test Sentence 
 
-## vectorizer.<some_function> to remove the new words that are not in the vocab
-## Or make vocab as a set and then check for each word in the new description. If present in set then push it into array which will be transformed
-vectorNew = vectorizer.transform(test_sentence)
-
-print(vectorNew)
-'''
-
-## Cosine Similarit
-x = all_documents_encoded[0]
-y = all_documents_encoded[4]
+## Cosine Similarity:
 
 ## The usual creation of arrays produces wrong format (as cosine_similarity works on matrices)
 ## Therefore, if need to reshape these to numpy array
-#x = x.reshape(1,-1)
-#y = y.reshape(1,-1)
+## Import numpy then:
+#doc1 = doc1.reshape(1,-1)
+#doc2 = doc2.reshape(1,-1)
+## When shape = (n, m) it means n = number of rows and m = number of columns
 
-cosine_similarity(x,y)
+all_documents_similarity = []
+## all_documents_similarity is a array in whcih we save the similarity and the primary key/index together as we will have to sort the list for selecting top similar descriptions, so we need to save the indexes as well
+for i in range(len(all_documents_encoded)):
+    all_documents_similarity.append([cosine_similarity(all_documents_encoded[i],test_document_encoded), i])
+
+## Sort all similarities in desc order    
+all_documents_similarity_sorted = sorted(all_documents_similarity, reverse = True) 
+
+
+## Select similar documents:
+
+## Select Top X% of the sorted values
+## Is there a better way to decide what percentage to select, other than trial and error?
+X = 50
+topXpercent = int(len(all_documents_similarity_sorted)*(X/100))
+all_documents_similarity_sorted_topXpercent = all_documents_similarity_sorted[:topXpercent]
+print (all_documents_similarity)
+print (all_documents_similarity_sorted)
+print (topXpercent)
+print (all_documents_similarity_sorted_topXpercent)
