@@ -1,7 +1,8 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction import text
-import numpy as np
+#import numpy as np
+import pandas as pd ## Read and manipulate csv
 
 ''' NOTE - # is Commented Code and ## is just Comment and ### is Sub-Comment for the nearest ## above'''
 
@@ -11,17 +12,17 @@ import numpy as np
 
 ## Either use countVectorizer and then tfidf transforms and fit, or use tfidfVectorizer
 
-sentence_1 = "My name is Clark Kent. I am currently a Masters student at the San Jose State University. "
-sentence_2 = "Clark is doing his Masters study in the Software Engineering course. Started in the year 2018"
+description_1 = "My name is Clark Kent. I am currently a Masters student at the San Jose State University. "
+description_2 = "Clark is doing his Masters study in the Software Engineering course. Started in the year 2018"
 
-sentence_3 = "My name is Martha Kent. I am an employee at Google, Mountain View"
-sentence_4 = "Martha is currently a Programmer Analyst at Google. Started in the year 2015"
+description_3 = "My name is Martha Kent. I am an employee at Google, Mountain View"
+description_4 = "Martha is currently a Programmer Analyst at Google. Started in the year 2015"
 
-test_sentence = "The quick brown fox Clark jumps over the lazy dog Martha. Carpe diem!"
+test_description = "The quick brown fox Clark jumps over the lazy dog Martha. Carpe diem!"
 
-sentence_array = [sentence_1,sentence_2,sentence_3,sentence_4]
+description_array = [description_1,description_2,description_3,description_4]
 
-## the indexes of the whole document array (sentence_array) could work as the unique id (primary key) of each description from the dataset
+## the indexes of the whole document array (description_array) could work as the unique id (primary key) of each description from the dataset
 ## if a description is NaN then store some indicator or '' here and move to next index
 
 ## NOTE - Stemming or Lemmatization?
@@ -34,7 +35,7 @@ vectorizer = TfidfVectorizer(stop_words = 'english')
 ## if df>>tf then is tfidf very very near 0 such that it wont show even with a double datatype? For this do we multiply tf by a constant to make it comparable to idf and make tfidf calculatable for avaiable datasets?
 
 ## tokenize and build vocabulary
-vectorizer.fit(sentence_array)
+vectorizer.fit(description_array)
 
 ## summarize
 print(vectorizer.vocabulary_)
@@ -42,8 +43,8 @@ print(vectorizer.idf_)
 
 ## encode each document and save in a combined array
 all_documents_encoded = []
-for i in range(len(sentence_array)):
-    vector = vectorizer.transform([sentence_array[i]]) ## make sparse array
+for i in range(len(description_array)):
+    vector = vectorizer.transform([description_array[i]]) ## make sparse array
     ## summarize encoded vector
     all_documents_encoded.append(vector.toarray())
     
@@ -53,32 +54,32 @@ print(vector.shape)
 for j in range(len(all_documents_encoded)):
     print (all_documents_encoded[j], j)
     
-## Handling unseen words, stop words, punctuations, and next lines in the test sentence and form the sparse array of test sentence
-## is there a function in sklearn to handle new and unseen words in the testing sentences?
+## Handling unseen words, stop words, punctuations, and next lines in the test description and form the sparse array of test description
+## is there a function in sklearn to handle new and unseen words in the testing descriptions?
 tokenizer = vectorizer.build_tokenizer()
-test_sentence_tokens = tokenizer(test_sentence)
-print (test_sentence_tokens)    
+test_description_tokens = tokenizer(test_description)
+print (test_description_tokens)    
 
 ## Store all words from sklearn stop words file
 stop_words = text.ENGLISH_STOP_WORDS
 
-test_sentence_tokens_filtered = []
-for i in range(len(test_sentence_tokens)):
+test_description_tokens_filtered = []
+for i in range(len(test_description_tokens)):
     ## if the current token lowercased is not in stop words and is present in vocabulary, then append the token to a token array
     ## vectorizer.vocabulary_ is a map therefore get() is O(1). get() returns index of that word if found in vocab. If not found it returns None
-    if not test_sentence_tokens[i].lower() in stop_words and vectorizer.vocabulary_.get(test_sentence_tokens[i].lower()) != None :
-        test_sentence_tokens_filtered.append(test_sentence_tokens[i].lower())
+    if not test_description_tokens[i].lower() in stop_words and vectorizer.vocabulary_.get(test_description_tokens[i].lower()) != None :
+        test_description_tokens_filtered.append(test_description_tokens[i].lower())
 
-print (test_sentence_tokens_filtered)
+print (test_description_tokens_filtered)
 
 ## vectorizer.transform takes in string to form a sparse array of it
-## Therefore, we convert tbe te sentence token array to string
+## Therefore, we convert tbe te description token array to string
 
-test_sentence_modified = " ".join(test_sentence_tokens_filtered)
+test_description_modified = " ".join(test_description_tokens_filtered)
 ## "".join(['a','b','c']) means Join all elements of the array, separated by the string "". In the same way, " hi ".join(["jim", "bob", "joe"]) will create "jim hi bob hi joe"
 
-## make sparse array of filtered test sentence
-test_document_vector = vectorizer.transform([test_sentence_modified])
+## make sparse array of filtered test description
+test_document_vector = vectorizer.transform([test_description_modified])
 test_document_encoded = (test_document_vector.toarray()) 
 
 print (test_document_encoded)
@@ -118,7 +119,7 @@ all_documents_similarity_sorted = sorted(all_documents_similarity, reverse = Tru
 ## Select similar documents:
 
 ## Select Top X% of the sorted values
-## Is there a better way to decide what percentage to select, other than trial and error?
+## NOTE - Is there a better way to decide what percentage to select, other than trial and error on percentages?
 X = 50
 topXpercent = int(len(all_documents_similarity_sorted)*(X/100))
 all_documents_similarity_sorted_topXpercent = all_documents_similarity_sorted[:topXpercent]
@@ -126,3 +127,5 @@ print (all_documents_similarity)
 print (all_documents_similarity_sorted)
 print (topXpercent)
 print (all_documents_similarity_sorted_topXpercent)
+
+## Find Weighted Average of Ratings
