@@ -78,7 +78,7 @@ print(vector.shape)
 
 
 ## Test Description - Tokenization and Filteration:
-test_description = description_array[0] ## PAC-MAN Game
+test_description = "Netflix is the world’s leading subscription service for watching TV episodes and films on your phone. This Netflix mobile application delivers the best experience anywhere, anytime. Get the free app as a part of your Netflix membership and you can instantly watch thousands of TV episodes & films on your phone. If you are not a Netflix member sign up for Netflix and start enjoying immediately on your phone with our one-month free trial. How does Netflix work? • Netflix membership gives you access to unlimited TV programmes and films for one low monthly price. • With the Netflix app you can instantly watch as many TV episodes & films as you want, as often as you want, anytime you want. • You can Browse a growing selection of thousands of titles, and new episodes that are added regularly. • Search for titles and watch immediately on your phone or on an ever expanding list of supported devices. • Rate your favorite programmes and films and tell us what you like so Netflix can help suggest the best titles for you. • Start watching on one device, and resume watching on another. Check out netflix.com for all the TVs, game consoles, tablets, phones, Blu-ray players and set top boxes on which you can watch Netflix."
 tokenizer = vectorizer.build_tokenizer()
 test_description_tokens = tokenizer(test_description)
 #print (test_description_tokens)   
@@ -116,7 +116,7 @@ all_documents_similarity_sorted = sorted(all_documents_similarity, reverse = Tru
 ## Select similar documents:
 ## Select Top X% of the sorted values
 ## NOTE - Is there a better way to decide what percentage to select, other than trial and error on percentages?
-Xpercent = 0.21 ##Top 15 documents
+Xpercent = 0.15 ##Top 10 documents
 topXpercent = int(len(all_documents_similarity_sorted)*(Xpercent/100))
 all_documents_similarity_sorted_topXpercent = all_documents_similarity_sorted[:topXpercent]
 #print (all_documents_similarity)
@@ -124,4 +124,27 @@ all_documents_similarity_sorted_topXpercent = all_documents_similarity_sorted[:t
 print (topXpercent)
 print (all_documents_similarity_sorted_topXpercent)
 
-## Find Weighted Average of Ratings
+## If highest similarity is < say 0.2 then tell the user to add more description for better results? - So as to tackle single word or line descriptions. To tackle persistant users, add a button if they want analytics with only that much of description?
+if(all_documents_similarity_sorted_topXpercent[0][0][0][0] < 0.2):
+    print ("For better analytics, enter more description specific to your app")
+    
+## Print index of the description found to be similar
+#print (all_documents_similarity_sorted_topXpercent[0][1])
+
+## Link Datasets and Find Weighted Average of Ratings
+total_weight = 0
+total_weighted_rating = 0
+for i in range(len(all_documents_similarity_sorted_topXpercent)):
+    document_rating = data_full.iloc[(all_documents_similarity_sorted_topXpercent[i][1])]['user_rating']
+    if document_rating == 0:
+        continue
+    document_name = data_full.iloc[(all_documents_similarity_sorted_topXpercent[i][1])]['track_name']
+    document_id = all_documents_similarity_sorted_topXpercent[i][1]
+    print (document_id, document_name, document_rating)
+    document_weight = all_documents_similarity_sorted_topXpercent[i][0][0][0]
+    document_weighted_rating = document_weight*document_rating
+    total_weighted_rating = total_weighted_rating+document_weighted_rating
+    total_weight = total_weight+document_weight
+    
+final_rating = total_weighted_rating/total_weight
+print (final_rating)  
