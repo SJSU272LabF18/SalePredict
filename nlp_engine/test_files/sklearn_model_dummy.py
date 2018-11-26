@@ -129,3 +129,5 @@ print (topXpercent)
 print (all_documents_similarity_sorted_topXpercent)
 
 ## Find Weighted Average of Ratings
+## Pickle
+## Server
