@@ -4,17 +4,18 @@ from sklearn.feature_extraction import text
 #import numpy as np
 import pandas as pd ## Read and manipulate csv
 from langdetect import detect ## Detect Language
+import pickle ## pickle the model
 
 ''' NOTE - # is Commented Code and ## is just Comment and ### is Sub-Comment for the nearest ## above'''
-## NOTE - Refer 'sklearn_model_-_dummy_description' file for full description of methodology and functions used
+## NOTE - Refer 'sklearn_model_dummy' file for full description of methodology and functions used
 
 ## Reading from csv using pandas
-path = 'C:\\Users\\shrke\\Desktop\\272 Project\\Dataset\\'
+path = 'C:\\Users\\shrke\\Desktop\\272 Project\\Apple store dataset\\'
 data_full = pd.read_csv(path + "AppleStore.csv")
 ## Show top 5 rows in dataset
 #data_full.head()
 
-path = 'C:\\Users\\shrke\\Desktop\\272 Project\\Dataset\\'
+path = 'C:\\Users\\shrke\\Desktop\\272 Project\\Apple store dataset\\'
 data_desc = pd.read_csv(path + "appleStore_description.csv")
 
 ## List column headers
@@ -76,9 +77,8 @@ for i in range(len(description_array)):
 ## print the range of a document vector
 print(vector.shape)
 
-
 ## Test Description - Tokenization and Filteration:
-test_description = "Netflix is the world’s leading subscription service for watching TV episodes and films on your phone. This Netflix mobile application delivers the best experience anywhere, anytime. Get the free app as a part of your Netflix membership and you can instantly watch thousands of TV episodes & films on your phone. If you are not a Netflix member sign up for Netflix and start enjoying immediately on your phone with our one-month free trial. How does Netflix work? • Netflix membership gives you access to unlimited TV programmes and films for one low monthly price. • With the Netflix app you can instantly watch as many TV episodes & films as you want, as often as you want, anytime you want. • You can Browse a growing selection of thousands of titles, and new episodes that are added regularly. • Search for titles and watch immediately on your phone or on an ever expanding list of supported devices. • Rate your favorite programmes and films and tell us what you like so Netflix can help suggest the best titles for you. • Start watching on one device, and resume watching on another. Check out netflix.com for all the TVs, game consoles, tablets, phones, Blu-ray players and set top boxes on which you can watch Netflix."
+test_description = "Unlock your ride and your city with Lime, the #1 electric scooter and bike sharing app. Our micro-mobility solutions including dock free rental bikes, e-assist bikes, and electric scooters are available anytime to get you across town or across campus. Simply tap to find a ride near you, scan the code to unlock it and go! With Lime, you’ll never have to worry about traffic or finding a parking station, and you can leave your ride safely at your destination for a fraction of the cost of a taxi or a ride share. Have fun, connect with your community and get where you’re going in style. Lime is your ride anytime! Download the app and get started today! How Lime works: - Open the app to find a nearby Lime-S (electric scooter), Lime-E (e-assist bike), LimeBike on the map - Unlock your ride by scanning the QR code or entering the ID - Take a fun, healthy and affordable ride to your destination - Once you’ve arrived, park and lock your ride safely out of the way of foot traffic Use Lime for: - Your morning/evening commute - Rides with friends - Rides to/from public transit stations - Rides to/from class - Taking an urban adventure - Travel and tourist groups - Date nights - When you want to explore your city - When your car or your bicycle is in the shop - Anytime you want a fun, quick, convenient ride across town! Want Lime in your city? Let us know by voting on our website! https://www.limebike.com/"
 tokenizer = vectorizer.build_tokenizer()
 test_description_tokens = tokenizer(test_description)
 #print (test_description_tokens)   
@@ -145,6 +145,36 @@ for i in range(len(all_documents_similarity_sorted_topXpercent)):
     document_weighted_rating = document_weight*document_rating
     total_weighted_rating = total_weighted_rating+document_weighted_rating
     total_weight = total_weight+document_weight
-    
+       
 final_rating = total_weighted_rating/total_weight
-print (final_rating)  
+print (final_rating)
+
+## Hosting the Model: 2 Approaches: 1) Pickle model 2) REST API
+## https://stackoverflow.com/questions/49216223/integration-of-python-ml-model-with-a-web-application
+
+## Going forward with approach 2:
+## Pickling the File
+## Refer - https://wiki.python.org/moin/UsingPickle
+## Refer - https://pythontips.com/2013/08/02/what-is-pickle-in-python/
+## Use pickle (python) or cpickle (c)? cpickle is faster than pickle
+## In Python 2, you can speed up your pickle access with cPickle. (In Python3, importing pickle will automatically use the accelerated version if it is available.)
+
+pickle_input = all_documents_encoded
+pickle.dump(pickle_input, open("pickle_input.pickle", "wb"))
+pickle_output = pickle.load(open("pickle_input.pickle", "rb"))
+#pickle_output[0]
+
+## if pickle load takes time then can we put all_documents_encoded into a text file and load that when needed? WOuld theat be faster?
+## At the end of the notebook link the next notebook
+
+values = pickle_input
+
+with open("test.txt", "w") as output:
+    output.write(str(values)) 
+    
+with open('test.txt', 'r') as myfile:
+    data=myfile.read().replace('\n', '')
+    
+data[0]
+
+## NOTE - pipeline, one function/api to run/load the prediction?
