@@ -1,11 +1,3 @@
-## COMMENT THIS AND ALPHA AND CHECK BETA AND REMOVE BETA
-## COMMENT PICKLE AND SCIPY BOTH USED
-## COMMENT WHY rating_array and track_name_array used
-## Move rating_array code and pickle codes up
-
-
-
-
 from sklearn.feature_extraction.text import TfidfVectorizer ## TFIDF calculation
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction import text
