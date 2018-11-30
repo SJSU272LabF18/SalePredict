@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 ## Refer - https://www.analyticsvidhya.com/blog/2017/09/machine-learning-models-as-apis-using-flask/
 ## Refer - https://projects.raspberrypi.org/en/projects/python-web-server-with-flask/2
@@ -6,6 +7,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__) 
 ## __name__ refers to main
+CORS(app)
 
 @app.route('/') 
 ## Route '/' refers to http://127.0.0.1:5000/ i.e localhost
