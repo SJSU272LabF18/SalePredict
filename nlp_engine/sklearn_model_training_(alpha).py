@@ -109,10 +109,26 @@ for i in range(len(data_full)):
 # print (description_array[7196])
 
 ## create the transform
-vectorizer = TfidfVectorizer(stop_words = 'english')   
+## Only top k words are put into vocab as max_features = k (top according to their frequency)
+## NOTE - This humongously improves similarity finding time as we reduce total vocab from about 40000 to about 10000. There might be some tradeoff with the similarity finding accuracy but it is satisfactory in our use case
+vectorizer = TfidfVectorizer(stop_words = 'english', max_features = 9500)   
 
 ## tokenize and build vocabulary
 vectorizer.fit(description_array)
+
+## To reduce the vocabulary and remove the words that occur very infrequently accross the descriptions, we sort the idf array and then print top k elements to see where to put the limit so as to not include any words below this limit
+## This k shall be put as max_feature in TfidfVectorizer
+# import numpy as np
+
+# indices = np.argsort(vectorizer.idf_)[::-1]
+# features = vectorizer.get_feature_names()
+# print (len(features))
+# bottom_n = 0
+# top_features = [features[i] for i in indices[bottom_n:]]
+# print (top_features)
+
+# ## Refer - https://stackoverflow.com/questions/25217510/how-to-see-top-n-entries-of-term-document-matrix-after-tfidf-in-scikit-learn/25219535
+# ## Refer - https://stackoverflow.com/questions/46118910/scikit-learn-vectorizer-max-features
 
 #print vocabulary
 #print(vectorizer.vocabulary_)
