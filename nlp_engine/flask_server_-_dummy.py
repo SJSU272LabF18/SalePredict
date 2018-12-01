@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 ## Refer - https://www.analyticsvidhya.com/blog/2017/09/machine-learning-models-as-apis-using-flask/
 ## Refer - https://projects.raspberrypi.org/en/projects/python-web-server-with-flask/2
 ## Refer - https://www.youtube.com/results?search_query=machine+learning+model+deployment+using+flask
 
 app = Flask(__name__) 
+CORS(app)
 ## __name__ refers to main
 
 @app.route('/') 
