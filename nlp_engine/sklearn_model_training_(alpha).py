@@ -320,3 +320,15 @@ pickle_input = track_name_array
 pickle.dump(pickle_input, open("track_name_array.pickle", "wb"))
 pickle_output = pickle.load(open("track_name_array.pickle", "rb"))
 pickle_output[0]
+
+rating_count_tot = [] 
+## Array that stores all ratings
+for i in range(len(data_full)):
+    rating_count_tot.append(data_full.iloc[i]['rating_count_tot'])
+    
+#track_name_array[0]
+
+pickle_input = rating_count_tot
+pickle.dump(pickle_input, open("rating_count_tot.pickle", "wb"))
+pickle_output = pickle.load(open("rating_count_tot.pickle", "rb"))
+pickle_output[0]
