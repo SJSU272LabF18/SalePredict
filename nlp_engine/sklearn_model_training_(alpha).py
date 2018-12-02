@@ -332,3 +332,13 @@ pickle_input = rating_count_tot
 pickle.dump(pickle_input, open("rating_count_tot.pickle", "wb"))
 pickle_output = pickle.load(open("rating_count_tot.pickle", "rb"))
 pickle_output[0]
+
+age_group = [] 
+## Array that stores all ratings
+for i in range(len(data_full)):
+    age_group.append(data_full.iloc[i]['cont_rating'])
+    
+pickle_input = age_group
+pickle.dump(pickle_input, open("age_group.pickle", "wb"))
+pickle_output = pickle.load(open("age_group.pickle", "rb"))
+pickle_output[0]
