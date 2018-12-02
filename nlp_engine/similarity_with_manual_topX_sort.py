@@ -251,3 +251,25 @@ if (final_rating >= 3):
 else:
     print ("FAILURE")
 print("--- %s seconds ---" % (time.time() - start_time))
+
+
+## Frontend display:
+### Page 1:
+#### Show success or failure
+#### show average rating rounded off
+#### Show your pecentile/ranking w.r.t all other apps in the app store. And w.r.t genre as well?
+#### Show genre of app?
+#### Show potential number of total installs
+#### Show potential number of total users that will rate
+### Page 2:
+#### show graph of number of users by rating
+### Page 3:
+#### Graph of users by age group
+### All pages:
+#### show top 3 apps similar and their description excript (most important text summarized?) and their similarity percentage, and their number of installs
+#### For more detailed analysis - sign up/login and premium
+#### Top 3 Free or paid? whether you should put a prize on your app?
+
+
+## To Do:
+## Find such description that will have average rating less than 3.0
