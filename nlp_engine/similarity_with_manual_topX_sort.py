@@ -106,7 +106,7 @@ def find_similarity(test_description_modified):
 #     #print (all_documents_similarity_sorted_topXpercent)
     
    
-
+    ## SORT ONLY THOSE MUCH SIMILARITIES THAT ARE NEEDED - all_documents_similarity_sorted - dont sort all 7000 or so entires - Sort only to get the topXpercent similarity values
     all_documents_similarity_sorted_topXpercent = sortTopXpercent(all_documents_similarity, topXpercent)
     
     
@@ -151,9 +151,20 @@ def find_similarity(test_description_modified):
         total_users_that_rated = total_users_that_rated + document_weight
         
         
+    ## Final Average rating    
     final_rating = total_weighted_rating/total_weight
+    
+    
+    ## Total users by rating (dictionary)
     print("Users by rating:", users_by_rating_dict)
+    ## Note here that this dictionary is not normalized, i.e it could be possible that:
+    ## Consider the following final dictionary - Users by rating: {'0.5': 0, '1.0': 0, '1.5': 0, '2.0': 0, '2.5': 0, '3.0': 503946, '3.5': 0, '4.0': 27265, '4.5': 9559, '5.0': 0}
+    ## There are no users at rating 0.5, 1.0, and so on which will not give a distributed graph
+    ## Therefore we equalize the graph to some extent so that the peaks get distributed and we get a smoother bar graph (This is possibly manipulation of dataset but the kaggle dataset does not have user count for each rating increment for any particular distribution, and that's why we have to normalize the graph)    
+    ## For this we need total_users_that_rated as the total number of ratings given
     print("Total users that are likely to rate: ", int(total_users_that_rated))
+    ## NOTE - Could not find a library for this so make a function for equalization?
+    
     return final_rating
    
         
@@ -213,24 +224,29 @@ print (test_description_modified)
 final_rating = find_similarity(test_description_modified)
 
 print (final_rating)
+if (final_rating >= 3): 
+    print ("SUCCESS")
+else:
+    print ("FAILURE")
 print("--- %s seconds ---" % (time.time() - start_time))
 
-## Page 1:
-## Show success or failure
-## show average rating rounded off
-## Show your pecentile/ranking w.r.t all other apps in the app store. And w.r.t genre as well?
-## Show genre of app?
-## Show potential number of total installs
-## Show potential number of total users that will rate
+## Frontend display:
+### Page 1:
+#### Show success or failure
+#### show average rating rounded off
+#### Show your pecentile/ranking w.r.t all other apps in the app store. And w.r.t genre as well?
+#### Show genre of app?
+#### Show potential number of total installs
+#### Show potential number of total users that will rate
+### Page 2:
+#### show graph of number of users by rating
+### Page 3:
+#### 
+### All pages:
+#### show top 3 apps similar and their description excript (most important text summarized?) and their similarity percentage, and their number of installs
+#### For more detailed analysis - sign up/login and premium
+#### Top 3 Free or paid? whether you should put a prize on your app?
 
 
-## Page 2:
-## show graph of number of users by rating
-
-## Page 3:
-## 
-
-## All pages:
-## show top 3 apps similar and their description excript (most important text summarized?) and their similarity percentage, and their number of installs
-## For more detailed analysis - sign up/login and premium
-## Top 3 Free or paid? whether you should put a prize on your app?
+## To Do:
+## Find such description that will have average rating less than 3.0
