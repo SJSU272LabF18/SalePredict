@@ -18,15 +18,23 @@
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    opacity: 0.4;
   }
   .mainpage-textarea{
+    margin-left: 50%;
       width:150%;
       height:150px;
       border-radius:12px;
   }
 
   .mainpage-btn{
-    margin-left: 160%;
+    margin-left: 210%;
     margin-top: -70%;
+  }
+
+  .main-desc{
+    margin-bottom: 20%;
+    margin-top: -30%;
+
   }
 

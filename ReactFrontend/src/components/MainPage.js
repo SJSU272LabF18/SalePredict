@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../css/MainPage.css';
+import WisNavbar from './WisNavbar';
 
 
 
@@ -34,14 +35,17 @@ class MainPage extends Component {
     }
     render() {
         return (
-            <div className='mainpage'>
-                {/* //     <img className='bg-img' src='QiAMG0g.png'></img> */}
+            <div>
+                <div className='mainpage'>
+                    <WisNavbar />
 
-                <div>
-                    <textarea placeholder="Enter You Description" className='mainpage-textarea' name='description' onChange={this.onChange}></textarea>
-                    <button className='btn btn-primary mainpage-btn' onClick={this.submitDescription}>Submit</button>
+                    <img className='bg-img' src='appstoreicon (1).png'  ></img>
+
+                    <div className='main-desc'>
+                        <textarea placeholder="Enter You Description" className='mainpage-textarea' name='description' onChange={this.onChange}></textarea>
+                        <button className='btn btn-primary mainpage-btn' onClick={this.submitDescription}>Submit</button>
+                    </div>
                 </div>
-
             </div>
         );
     }

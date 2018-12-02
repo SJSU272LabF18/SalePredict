@@ -5,6 +5,7 @@ class Home extends Component {
     state = {}
     render() {
         return (<div>
+
             <Link to='/mainpage'><img src='MainPage.jpeg'></img></Link>
 
         </div>);
