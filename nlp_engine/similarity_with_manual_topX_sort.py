@@ -37,6 +37,8 @@ track_name_array = pickle.load(open("track_name_array.pickle", "rb"))
 #print (track_name_array[0])
 ## Load rating count for each description
 rating_count_array = pickle.load(open("rating_count_tot.pickle", "rb"))
+## Load age group for each description
+age_group_array = pickle.load(open("age_group.pickle", "rb"))
 ## Load All Documents Encoded Sparse Array npz file
 sparse_matrix = scipy.sparse.load_npz('sparse_matrix_actual.npz')
 all_documents_encoded = sparse_matrix.todense()
@@ -123,7 +125,10 @@ def find_similarity(test_description_modified):
     total_weight = 0
     total_weighted_rating = 0
     users_by_rating_dict = { "0.5":0, "1.0":0, "1.5":0, "2.0":0, "2.5":0, "3.0":0, "3.5":0, "4.0":0, "4.5":0, "5.0":0 }
+    users_by_ageGroup_dict = { "Children_5-13":0, "Teenager_13-18":0, "Adult_18-50":0, "Elderly_50+":0}
     total_users_that_rated = 0
+    ## Arbitrary installs factor value - Apple dataset does not contain information about total installs so have to calculate an average value assuming that every 1 person among 'total_users_that_rated/installs_factor' number of persons rates the app
+    installs_factor = 250
     for i in range(len(all_documents_similarity_sorted_topXpercent)):
         #document_rating = data_full.iloc[(all_documents_similarity_sorted_topXpercent[i][1])]['user_rating']
         document_rating = rating_array[(all_documents_similarity_sorted_topXpercent[i][1])]
@@ -151,6 +156,17 @@ def find_similarity(test_description_modified):
         total_users_that_rated = total_users_that_rated + document_weight
         
         
+        ## For the graph of "number of users" by "Age Group" - 
+        age_group = age_group_array[(all_documents_similarity_sorted_topXpercent[i][1])]
+        if(age_group == "4+" or age_group == None or or age_group == "0"):
+            
+        elif(age_group == "9+"):
+            
+        elif(age_group == "12+"):  
+            
+        elif(age_group == "17+"): 
+        
+        
     ## Final Average rating    
     final_rating = total_weighted_rating/total_weight
     
@@ -164,6 +180,12 @@ def find_similarity(test_description_modified):
     ## For this we need total_users_that_rated as the total number of ratings given
     print("Total users that are likely to rate: ", int(total_users_that_rated))
     ## NOTE - Could not find a library for this so make a function for equalization?
+    
+    ## Total predicted installs
+    factor = total_users_that_rated/installs_factor
+    print("Total installs: ", int(total_users_that_rated*factor))
+    
+    
     
     return final_rating
    
@@ -200,7 +222,7 @@ print ("FILES LOADED", track_name_array[0])
 
 start_time = time.time()
 
-test_description = "SAVE 20%, now only $3.99 for a limited time! One of the most popular video games in arcade history! 2015 World Video Game Hall of Fame Inductee Who can forget the countless hours and quarters spent outrunning pesky ghosts and chompinâ€™ on dots? Now you can have the same arcade excitement on your mobile devices! Guide PAC-MAN through the mazes with easy swipe controls, a MFi controller, or kick it old school with the onscreen joystick! Eat all of the dots to advance to the next stage. Go for high scores and higher levels! Gain an extra life at 10.000 points! Gobble Power Pellets to weaken ghosts temporarily and eat them up before they change back. Avoid Blinky, the leader of the ghosts, and his fellow ghosts Pinky, Inky, and Clyde, or you will lose a life. Itâ€™s game over when you lose all your lives. 9 NEW MAZES Included!!! The game includes 9 new mazes in addition to the pixel for pixel recreation of the classic original maze. Challenge your skill to beat them all! We are constantly updating the game with new maze packs that you can buy to complete your PAC-MAN collection. HINTS and TIPS!!! Insider pro-tips and hints are being made available for the first time in-game! Use these to help you become a PAC-MAN champion! FEATURES: â€¢ New tournaments â€¢ New Visual Hints and Pro-tips â€¢ New mazes for all new challenges â€¢ Play an arcade perfect port of classic PAC-MAN â€¢ Two different control modes â€¢ Three game difficulties (including the original 1980 arcade game) â€¢ Retina display support â€¢ MFi controller support"
+test_description = "WhatsApp Messenger is a FREE messaging app available for Android and other smartphones. WhatsApp uses your phone's Internet connection (4G/3G/2G/EDGE or Wi-Fi, as available) to let you message and call friends and family. Switch from SMS to WhatsApp to send and receive messages, calls, photos, videos, documents, and Voice Messages. WHY USE WHATSAPP: • NO FEES: WhatsApp uses your phone's Internet connection (4G/3G/2G/EDGE or Wi-Fi, as available) to let you message and call friends and family, so you don't have to pay for every message or call.* There are no subscription fees to use WhatsApp. • MULTIMEDIA: Send and receive photos, videos, documents, and Voice Messages. • FREE CALLS: Call your friends and family for free with WhatsApp Calling, even if they're in another country.* WhatsApp calls use your phone's Internet connection rather than your cellular plan's voice minutes. (Note: Data charges may apply. Contact your provider for details. Also, you can't access 911 and other emergency service numbers through WhatsApp). • GROUP CHAT: Enjoy group chats with your contacts so you can easily stay in touch with your friends or family. • WHATSAPP WEB: You can also send and receive WhatsApp messages right from your computer's browser. • NO INTERNATIONAL CHARGES: There's no extra charge to send WhatsApp messages internationally. Chat with your friends around the world and avoid international SMS charges.* • SAY NO TO USERNAMES AND PINS: Why bother having to remember yet another username or PIN? WhatsApp works with your phone number, just like SMS, and integrates seamlessly with your phone's existing address book. • ALWAYS LOGGED IN: With WhatsApp, you're always logged in so you don't miss messages. No more confusion about whether you're logged in or logged out. • QUICKLY CONNECT WITH YOUR CONTACTS: Your address book is used to quickly and easily connect you with your contacts who have WhatsApp so there's no need to add hard-to-remember usernames. • OFFLINE MESSAGES: Even if you miss your notifications or turn off your phone, WhatsApp will save your recent messages until the next time you use the app. • AND MUCH MORE: Share your location, exchange contacts, set custom wallpapers and notification sounds, email chat history, broadcast messages to multiple contacts at once, and more! *Data charges may apply. Contact your provider for details."
 
 if detect(test_description) != 'en':
     print ("Error: Please enter plain english detailed description")
@@ -229,24 +251,3 @@ if (final_rating >= 3):
 else:
     print ("FAILURE")
 print("--- %s seconds ---" % (time.time() - start_time))
-
-## Frontend display:
-### Page 1:
-#### Show success or failure
-#### show average rating rounded off
-#### Show your pecentile/ranking w.r.t all other apps in the app store. And w.r.t genre as well?
-#### Show genre of app?
-#### Show potential number of total installs
-#### Show potential number of total users that will rate
-### Page 2:
-#### show graph of number of users by rating
-### Page 3:
-#### 
-### All pages:
-#### show top 3 apps similar and their description excript (most important text summarized?) and their similarity percentage, and their number of installs
-#### For more detailed analysis - sign up/login and premium
-#### Top 3 Free or paid? whether you should put a prize on your app?
-
-
-## To Do:
-## Find such description that will have average rating less than 3.0
