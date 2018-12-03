@@ -25,35 +25,36 @@ import scipy.sparse ## Convert sparse matrix to SciPy CSC matrix .npz
 
 
 ## TO BE DONE AS SOON AS SERVER STARTS RUNNING i.e description_array file should be kept open and running even when nobody is pinging on enter description
+
+path = 'trained_model_-_pickle_and_np_sparse_files\\'
 ## Load full description array
-description_array = pickle.load(open("description_array.pickle", "rb"))
+description_array = pickle.load(open(path + "description_array.pickle", "rb"))
 ## Keep max_features the same as that training the model
 vectorizer = TfidfVectorizer(stop_words = 'english', max_features = 9500)   
 ## tokenize and build vocabulary
 vectorizer.fit(description_array)
 
 ## Load all rating array
-rating_array = pickle.load(open("rating_array.pickle", "rb"))
+rating_array = pickle.load(open(path + "rating_array.pickle", "rb"))
 #print (rating_array[0])
 
 ## Load all track name array
-track_name_array = pickle.load(open("track_name_array.pickle", "rb"))
+track_name_array = pickle.load(open(path + "track_name_array.pickle", "rb"))
 #print (track_name_array[0])
 
 ## Load rating count for each description
-rating_count_array = pickle.load(open("rating_count_tot.pickle", "rb"))
+rating_count_array = pickle.load(open(path + "rating_count_tot.pickle", "rb"))
 
 ## Load age group for each description
-age_group_array = pickle.load(open("age_group.pickle", "rb"))
+age_group_array = pickle.load(open(path + "age_group.pickle", "rb"))
 
 ## Load prime genre for each description
-genre = pickle.load(open("genre.pickle", "rb"))
+genre = pickle.load(open(path + "genre.pickle", "rb"))
 
 ## Load All Documents Encoded Sparse Array npz file
-sparse_matrix = scipy.sparse.load_npz('sparse_matrix_actual.npz')
+sparse_matrix = scipy.sparse.load_npz(path + 'sparse_matrix_actual.npz')
 all_documents_encoded = sparse_matrix.todense()
 # Sometimes sparse_matrix.todense() shows memory error. But trying after some time it doesnt show error
-
 
 
 
