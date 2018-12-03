@@ -285,11 +285,12 @@ pickle_output = pickle.load(open("pickle_input.pickle", "rb"))
 ## NOTE - pipeline, one function/api to run/load the prediction?
 
 ## Pickle description_array 
+path1 = 'trained_model_-_pickle_and_np_sparse_files\\'
 description_array[0]
 
 pickle_input = description_array
-pickle.dump(pickle_input, open("description_array.pickle", "wb"))
-pickle_output = pickle.load(open("description_array.pickle", "rb"))
+pickle.dump(pickle_input, open(path + "description_array.pickle", "wb"))
+pickle_output = pickle.load(open(path + "description_array.pickle", "rb"))
 pickle_output[1]
 
 rating_array = [] 
@@ -305,8 +306,8 @@ for i in range(len(data_full)):
 #rating_array[7196]
 
 pickle_input = rating_array
-pickle.dump(pickle_input, open("rating_array.pickle", "wb"))
-pickle_output = pickle.load(open("rating_array.pickle", "rb"))
+pickle.dump(pickle_input, open(path + "rating_array.pickle", "wb"))
+pickle_output = pickle.load(open(path + "rating_array.pickle", "rb"))
 pickle_output[0]
 
 track_name_array = [] 
@@ -317,8 +318,8 @@ for i in range(len(data_full)):
 #track_name_array[0]
 
 pickle_input = track_name_array
-pickle.dump(pickle_input, open("track_name_array.pickle", "wb"))
-pickle_output = pickle.load(open("track_name_array.pickle", "rb"))
+pickle.dump(pickle_input, open(path + "track_name_array.pickle", "wb"))
+pickle_output = pickle.load(open(path + "track_name_array.pickle", "rb"))
 pickle_output[0]
 
 rating_count_tot = [] 
@@ -329,8 +330,8 @@ for i in range(len(data_full)):
 #track_name_array[0]
 
 pickle_input = rating_count_tot
-pickle.dump(pickle_input, open("rating_count_tot.pickle", "wb"))
-pickle_output = pickle.load(open("rating_count_tot.pickle", "rb"))
+pickle.dump(pickle_input, open(path + "rating_count_tot.pickle", "wb"))
+pickle_output = pickle.load(open(path + "rating_count_tot.pickle", "rb"))
 pickle_output[0]
 
 age_group = [] 
@@ -339,8 +340,8 @@ for i in range(len(data_full)):
     age_group.append(data_full.iloc[i]['cont_rating'])
     
 pickle_input = age_group
-pickle.dump(pickle_input, open("age_group.pickle", "wb"))
-pickle_output = pickle.load(open("age_group.pickle", "rb"))
+pickle.dump(pickle_input, open(path + "age_group.pickle", "wb"))
+pickle_output = pickle.load(open(path + "age_group.pickle", "rb"))
 pickle_output[0]
 
 genre = [] 
@@ -349,6 +350,6 @@ for i in range(len(data_full)):
     genre.append(data_full.iloc[i]['prime_genre'])
     
 pickle_input = genre
-pickle.dump(pickle_input, open("genre.pickle", "wb"))
-pickle_output = pickle.load(open("genre.pickle", "rb"))
+pickle.dump(pickle_input, open(path + "genre.pickle", "wb"))
+pickle_output = pickle.load(open(path + "genre.pickle", "rb"))
 pickle_output[0]
