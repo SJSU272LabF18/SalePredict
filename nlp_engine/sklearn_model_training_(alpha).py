@@ -14,6 +14,8 @@ from langdetect import detect ## Detect Language
 
 import pickle ## pickle the model
 
+import scipy.sparse
+
 # import numpy
 # numpy.set_printoptions(threshold=numpy.nan) ## To print the full NumPy array when jupyter notebook truncates the stdout with ... in between
 
@@ -149,12 +151,16 @@ for i in range(len(description_array)):
 print(vector.shape)
 #print(all_documents_encoded[0])
 
-import scipy.sparse
+
 sparse_matrix = scipy.sparse.csc_matrix(all_documents_encoded)
 sparse_matrix.todense()
-scipy.sparse.save_npz('sparse_matrix_actual.npz', sparse_matrix)
 
-sparse_matrix = scipy.sparse.load_npz('sparse_matrix_actual.npz')
+path1 = 'trained_model_-_pickle_and_np_sparse_files\\'
+
+scipy.sparse.save_npz(path + 'sparse_matrix_actual.npz', sparse_matrix)
+
+sparse_matrix = scipy.sparse.load_npz(path + 'sparse_matrix_actual.npz')
+
 sparse_matrix = sparse_matrix.todense()
 
 print (sparse_matrix[7196])
@@ -285,7 +291,6 @@ pickle_output = pickle.load(open("pickle_input.pickle", "rb"))
 ## NOTE - pipeline, one function/api to run/load the prediction?
 
 ## Pickle description_array 
-path1 = 'trained_model_-_pickle_and_np_sparse_files\\'
 description_array[0]
 
 pickle_input = description_array
