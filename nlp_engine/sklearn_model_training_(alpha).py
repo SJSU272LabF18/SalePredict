@@ -342,3 +342,13 @@ pickle_input = age_group
 pickle.dump(pickle_input, open("age_group.pickle", "wb"))
 pickle_output = pickle.load(open("age_group.pickle", "rb"))
 pickle_output[0]
+
+genre = [] 
+## Array that stores all prime genre
+for i in range(len(data_full)):
+    genre.append(data_full.iloc[i]['prime_genre'])
+    
+pickle_input = genre
+pickle.dump(pickle_input, open("genre.pickle", "wb"))
+pickle_output = pickle.load(open("genre.pickle", "rb"))
+pickle_output[0]
