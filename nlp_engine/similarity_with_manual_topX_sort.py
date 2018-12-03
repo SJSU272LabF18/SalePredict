@@ -40,6 +40,9 @@ rating_count_array = pickle.load(open("rating_count_tot.pickle", "rb"))
 ## Load age group for each description
 age_group_array = pickle.load(open("age_group.pickle", "rb"))
 ## Load All Documents Encoded Sparse Array npz file
+## Load prime genre for each description
+genre = pickle.load(open("genre.pickle", "rb"))
+
 sparse_matrix = scipy.sparse.load_npz('sparse_matrix_actual.npz')
 all_documents_encoded = sparse_matrix.todense()
 # Sometimes sparse_matrix.todense() shows memory error. But trying after some time it doesnt show error
@@ -240,6 +243,10 @@ def find_similarity(test_description_modified):
         temp4 = users_by_ageGroup_dict[x]
         users_by_ageGroup_dict[x] = temp4*factor
     print ("Installs, ordered by age:", users_by_ageGroup_dict)
+    
+    ## Print genre as the genre of the description with the highest similarity
+    prime_genre = genre[all_documents_similarity_sorted_topXpercent[0][1]]
+    print("Prime Genre: ", prime_genre)
     
     return final_rating
    
