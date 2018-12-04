@@ -5,6 +5,7 @@
 import time
 
 from flask import Flask, request, jsonify
+import json
 
 from sklearn.feature_extraction.text import TfidfVectorizer ## TFIDF calculation
 from sklearn.metrics.pairwise import cosine_similarity
@@ -319,10 +320,62 @@ def find_similarity(test_description_modified):
     prime_genre = genre[all_documents_similarity_sorted_topXpercent[0][1]]
     print("\nPrime Genre: ", prime_genre)
     
+    ## Print rounded off final rating
+    print ("\nPredicted rating: ", round(final_rating, 2)) ## 2 decimal places
+    
+    if (final_rating >= 4): 
+        selling_ability = '"Selling_Ability" : "Excellent"'
+    elif(final_rating >= 3 and final_rating < 4):
+        selling_ability = '"Selling_Ability" : "Good"'
+    elif(final_rating >= 2 and final_rating < 3):
+        selling_ability = '"Selling_Ability" : "Average"'
+    elif(final_rating >= 1 and final_rating < 2):
+        selling_ability = '"Selling_Ability" : "Poor"'
     
     
-    return final_rating
+    frontend_json = ""
+    
+    ## Making a string containing all the output data in jsonic form
+    frontend_json+= '{ "Predicted_Rating" : '  + '"' + str(round(final_rating, 2)) + '",'
+    frontend_json+= ' ' + selling_ability
+    frontend_json+= ', "Detected_Genre" : ' +  '"' + prime_genre + '",'
+    frontend_json+= ' "Total_Installs" : ' +  '"' + str(int(total_users_that_rated*factor)) + '",'
+    frontend_json+= ' "Total_Users_That_Rated" : ' +  '"' + str(int(total_users_that_rated)) + '",'
+    
+    ## changing single quotes in users_by_rating_equalized_dict keys to double quotes
+    json_graph_dict_ratings = json.dumps(users_by_rating_equalized_dict)
+    json_graph_dict_age_group = json.dumps(users_by_ageGroup_dict) 
+    frontend_json+= ' "Graph_Users_By_Ratings" : ' +  '[ ' + json_graph_dict_ratings + ' ],'
+    frontend_json+= ' "Graph_Installs_By_Age_Group" : ' +  '[ ' + json_graph_dict_age_group + ' ],'
+    
+    
+    top_3_string_concat = "{ "
+    for k in range(0, 3):
+        top_3_string_concat+='"'+str(k+1)+'" : [ '
+        #print (top_3_string_concat)
+        top_3_document_name = track_name_array[(all_documents_similarity_sorted_topXpercent[k][1])]
+        top_3_document_rating = rating_array[(all_documents_similarity_sorted_topXpercent[k][1])]
+        top_3_document_rating_count = rating_count_array[(all_documents_similarity_sorted_topXpercent[k][1])]
+        top_3_this_document_installs = top_3_document_rating_count*(top_3_document_rating_count/installs_factor)
+        top_3_dict_concat = '{ "Name" : "'+top_3_document_name+'",  "Rating" : "'+str(top_3_document_rating)+'", "Similarity_Score" : "'+str(round(all_documents_similarity_sorted_topXpercent[k][0][0][0]*100))+'%", "This_Description" : "" }'
+        top_3_string_concat+=top_3_dict_concat+' ]'
+        if (k!=2):   
+            top_3_string_concat+=', '
+    top_3_string_concat+= " }"
+    
+    frontend_json+= ' "Top_3_Similar_Apps" : ' +  '[ '+ top_3_string_concat + ' ]'
+    frontend_json+= ' }'
+    
+    print ("FRONTEND:\n")
+    
+    ## Dumping payload string into a json file
+    payload_dump = json.dumps(frontend_json)
+    ## payload_dump has unnecessary '\' elements. To remove them load this json file into another json file
+    payload = json.loads(payload_dump)
+    
+    return payload
    
+        
         
 
         
@@ -356,15 +409,10 @@ test_description_modified = lemmatized_Description
 ## WHAT IF WE USE inbuilt KNN function instead of COSINE SIMILARITY
 ## WHAT IF WE REDUCE VOCAB SIZE TO 7000 or something like that - Tried this, it largely reduced the runtime with negligible change in accuracy. Also, try Text summarization? - Might decrease accuracy but also decrease running time
 
-final_rating = find_similarity(test_description_modified)
+payload = find_similarity(test_description_modified)
+  
+print (payload)
 
-## Print rounded off final rating
-print ("\nPredicted rating: ", round(final_rating, 2)) ## 2 decimal places
-       
-if (final_rating >= 3): 
-    print ("\nSUCCESS")
-else:
-    print ("\nFAILURE")
 print("\n--- %s seconds ---" % (time.time() - start_time))
 
 ## Frontend display:
