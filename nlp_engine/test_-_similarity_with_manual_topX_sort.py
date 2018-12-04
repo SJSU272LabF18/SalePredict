@@ -27,35 +27,38 @@ import scipy.sparse ## Convert sparse matrix to SciPy CSC matrix .npz
 
 ## TO BE DONE AS SOON AS SERVER STARTS RUNNING i.e description_array file should be kept open and running even when nobody is pinging on enter description
 
-path = 'trained_model_-_pickle_and_np_sparse_files\\'
-## Load full description array
-description_array = pickle.load(open(path + "description_array.pickle", "rb"))
+path_trained_model = 'trained_model_-_pickle_and_np_sparse_files\\'
+## Load full modified description array
+description_array = pickle.load(open(path_trained_model + "description_array.pickle", "rb"))
+## Load full modified description array
+unmodified_description_array = pickle.load(open(path_trained_model + "unmodified_description_array.pickle", "rb"))
 ## Keep max_features the same as that training the model
 vectorizer = TfidfVectorizer(stop_words = 'english', max_features = 9500)   
 ## tokenize and build vocabulary
 vectorizer.fit(description_array)
 
 ## Load all rating array
-rating_array = pickle.load(open(path + "rating_array.pickle", "rb"))
+rating_array = pickle.load(open(path_trained_model + "rating_array.pickle", "rb"))
 #print (rating_array[0])
 
 ## Load all track name array
-track_name_array = pickle.load(open(path + "track_name_array.pickle", "rb"))
+track_name_array = pickle.load(open(path_trained_model + "track_name_array.pickle", "rb"))
 #print (track_name_array[0])
 
 ## Load rating count for each description
-rating_count_array = pickle.load(open(path + "rating_count_tot.pickle", "rb"))
+rating_count_array = pickle.load(open(path_trained_model + "rating_count_tot.pickle", "rb"))
 
 ## Load age group for each description
-age_group_array = pickle.load(open(path + "age_group.pickle", "rb"))
+age_group_array = pickle.load(open(path_trained_model + "age_group.pickle", "rb"))
 
 ## Load prime genre for each description
-genre = pickle.load(open(path + "genre.pickle", "rb"))
+genre = pickle.load(open(path_trained_model + "genre.pickle", "rb"))
 
 ## Load All Documents Encoded Sparse Array npz file
-sparse_matrix = scipy.sparse.load_npz(path + 'sparse_matrix_actual.npz')
+sparse_matrix = scipy.sparse.load_npz(path_trained_model + 'sparse_matrix_actual.npz')
 all_documents_encoded = sparse_matrix.todense()
 # Sometimes sparse_matrix.todense() shows memory error. But trying after some time it doesnt show error
+
 
 
 
@@ -187,7 +190,7 @@ def find_similarity(test_description_modified):
     ## make sparse array of filtered test description
     test_document_vector = vectorizer.transform([test_description_modified])
     test_document_encoded = (test_document_vector.toarray()) 
-
+    
     #print (test_document_encoded)
 
     ## Cosine Similarity:
@@ -226,7 +229,11 @@ def find_similarity(test_description_modified):
 
     ## Print index of the description found to be similar
     #print (all_documents_similarity_sorted_topXpercent[0][1])
-
+    
+    
+    
+    
+    
     ## Link Datasets and Find Weighted Average of Ratings and other details
     total_weight = 0
     total_weighted_rating = 0
@@ -284,7 +291,7 @@ def find_similarity(test_description_modified):
         
         #print ("\nCurrent users_by_ageGroup_dict:", users_by_ageGroup_dict)
         
-    
+       
     
     ## Final Average rating    
     final_rating = total_weighted_rating/total_weight
@@ -332,7 +339,7 @@ def find_similarity(test_description_modified):
     elif(final_rating >= 1 and final_rating < 2):
         selling_ability = '"Selling_Ability" : "Poor"'
     
-    
+    ## Creating frontend_json string that will be converted to json payload
     frontend_json = ""
     
     ## Making a string containing all the output data in jsonic form
@@ -357,7 +364,9 @@ def find_similarity(test_description_modified):
         top_3_document_rating = rating_array[(all_documents_similarity_sorted_topXpercent[k][1])]
         top_3_document_rating_count = rating_count_array[(all_documents_similarity_sorted_topXpercent[k][1])]
         top_3_this_document_installs = top_3_document_rating_count*(top_3_document_rating_count/installs_factor)
-        top_3_dict_concat = '{ "Name" : "'+top_3_document_name+'",  "Rating" : "'+str(top_3_document_rating)+'", "Similarity_Score" : "'+str(round(all_documents_similarity_sorted_topXpercent[k][0][0][0]*100))+'%", "This_Description" : "" }'
+        ## unmodified_description_array[(all_documents_similarity_sorted_topXpercent[k][1])][0:350] Here [0:350] means the first 350 characters in that string. replace("\n", " ") replacec any \n to a space " ". At the last a "..." is concatenated to the description string
+        this_description_trunc = (unmodified_description_array[(all_documents_similarity_sorted_topXpercent[k][1])][0:350]).replace("\n", " ")+"..."
+        top_3_dict_concat = '{ "Name" : "'+top_3_document_name+'",  "Rating" : "'+str(top_3_document_rating)+'", "Similarity_Score" : "'+str(round(all_documents_similarity_sorted_topXpercent[k][0][0][0]*100))+'%", "This_Description" : "'+this_description_trunc+'" }'
         top_3_string_concat+=top_3_dict_concat+' ]'
         if (k!=2):   
             top_3_string_concat+=', '
@@ -375,11 +384,6 @@ def find_similarity(test_description_modified):
     
     return payload
    
-        
-        
-
-        
-        
         
 print ("FILES LOADED")
 
@@ -410,10 +414,17 @@ test_description_modified = lemmatized_Description
 ## WHAT IF WE REDUCE VOCAB SIZE TO 7000 or something like that - Tried this, it largely reduced the runtime with negligible change in accuracy. Also, try Text summarization? - Might decrease accuracy but also decrease running time
 
 payload = find_similarity(test_description_modified)
-  
+
+
+
+       
 print (payload)
 
+
+
 print("\n--- %s seconds ---" % (time.time() - start_time))
+
+## UPDATE ON SERVER CODE
 
 ## Frontend display:
 ### Page 1:
@@ -423,12 +434,13 @@ print("\n--- %s seconds ---" % (time.time() - start_time))
 #### Show genre of app
 #### Show potential number of total installs
 #### Show potential number of total users that will rate
+#### Selling potential by number of installs and rating. 1-2 - Wont sell, 2-3.5 medium sell, 3.5-4.5 - Good sell, 4.5-5... and so on
 ### Page 2:
 #### show equalized graph of number of users by rating
 ### Page 3:
 #### Pie/Bar Chart of number of users by age group
 ### All pages:
-#### show top 3 apps similar and their description excript (most important text summarized?) and their similarity percentage, and their number of installs/user ratings, and show only 1 or 2 or none if similarity less than 0.2?
+#### show top 3 apps similar and their description excript (most important text summarized?) and their similarity percentage,  and show only 1 or 2 or none if similarity less than 0.2? Showing their number of installs/user ratings doesnt give decent results
 #### Are the top 3 Free or paid? Mention. Whether you should put a prize on your app considering free and paid analysis of topXpercent apps?
 #### For more detailed analysis - Sign up for premium/login
 
