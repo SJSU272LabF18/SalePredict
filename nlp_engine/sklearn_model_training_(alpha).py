@@ -1,3 +1,9 @@
+## COMMENT THIS AND ALPHA AND CHECK BETA AND REMOVE BETA
+## COMMENT PICKLE AND SCIPY BOTH USED
+## COMMENT WHY rating_array and track_name_array used and all other trained model are being used
+## Move rating_array code and pickle codes up
+
+
 from sklearn.feature_extraction.text import TfidfVectorizer ## TFIDF calculation
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction import text
@@ -23,13 +29,12 @@ import scipy.sparse
 ## NOTE - Refer 'sklearn_model_dummy' file for full description of methodology and functions used
 
 ## Reading from csv using pandas
-path = 'C:\\Users\\shrke\\Desktop\\272 Project\\Apple store dataset\\'
-data_full = pd.read_csv(path + "AppleStore.csv")
+path_dataset = 'C:\\Users\\shrke\\Desktop\\272 Project\\Apple store dataset\\'
+data_full = pd.read_csv(path_dataset + "AppleStore.csv")
 ## Show top 5 rows in dataset
 #data_full.head()
 
-path = 'C:\\Users\\shrke\\Desktop\\272 Project\\Apple store dataset\\'
-data_desc = pd.read_csv(path + "appleStore_description.csv")
+data_desc = pd.read_csv(path_dataset + "appleStore_description.csv")
 
 
 ## List column headers
@@ -105,8 +110,9 @@ for i in range(len(data_full)):
         ## Append the app_desc present in row i, to description_array at i index   
         description_array.append(lemmatized_Description)
 
+## description_array stores at each index the corresponding description. This index is very important as it matches the description to other features of the app from the csv file
+## NOTE - this index and the "id" column from csv file are different  
 
-        
 # print (description_array[0])
 # print (description_array[7196])
 
@@ -155,12 +161,11 @@ print(vector.shape)
 sparse_matrix = scipy.sparse.csc_matrix(all_documents_encoded)
 sparse_matrix.todense()
 
-path1 = 'trained_model_-_pickle_and_np_sparse_files\\'
+path_trained_model = 'trained_model_-_pickle_and_np_sparse_files\\'
 
-scipy.sparse.save_npz(path + 'sparse_matrix_actual.npz', sparse_matrix)
+scipy.sparse.save_npz(path_trained_model + 'sparse_matrix_actual.npz', sparse_matrix)
 
-sparse_matrix = scipy.sparse.load_npz(path + 'sparse_matrix_actual.npz')
-
+sparse_matrix = scipy.sparse.load_npz(path_trained_model + 'sparse_matrix_actual.npz')
 sparse_matrix = sparse_matrix.todense()
 
 print (sparse_matrix[7196])
@@ -294,9 +299,18 @@ pickle_output = pickle.load(open("pickle_input.pickle", "rb"))
 description_array[0]
 
 pickle_input = description_array
-pickle.dump(pickle_input, open(path + "description_array.pickle", "wb"))
-pickle_output = pickle.load(open(path + "description_array.pickle", "rb"))
+pickle.dump(pickle_input, open(path_trained_model + "description_array.pickle", "wb"))
+pickle_output = pickle.load(open(path_trained_model + "description_array.pickle", "rb"))
 pickle_output[1]
+
+pickle_output[7196]
+
+# import pandas as pd
+# import pickle ## pickle the model
+
+# ## Reading from csv using pandas
+# path_dataset = 'C:\\Users\\shrke\\Desktop\\272 Project\\Apple store dataset\\'
+# data_full = pd.read_csv(path_dataset + "AppleStore.csv")
 
 rating_array = [] 
 ## Array that stores all ratings
@@ -311,8 +325,8 @@ for i in range(len(data_full)):
 #rating_array[7196]
 
 pickle_input = rating_array
-pickle.dump(pickle_input, open(path + "rating_array.pickle", "wb"))
-pickle_output = pickle.load(open(path + "rating_array.pickle", "rb"))
+pickle.dump(pickle_input, open(path_trained_model + "rating_array.pickle", "wb"))
+pickle_output = pickle.load(open(path_trained_model + "rating_array.pickle", "rb"))
 pickle_output[0]
 
 track_name_array = [] 
@@ -323,30 +337,30 @@ for i in range(len(data_full)):
 #track_name_array[0]
 
 pickle_input = track_name_array
-pickle.dump(pickle_input, open(path + "track_name_array.pickle", "wb"))
-pickle_output = pickle.load(open(path + "track_name_array.pickle", "rb"))
+pickle.dump(pickle_input, open(path_trained_model + "track_name_array.pickle", "wb"))
+pickle_output = pickle.load(open(path_trained_model + "track_name_array.pickle", "rb"))
 pickle_output[0]
 
 rating_count_tot = [] 
-## Array that stores all ratings
+## Array that stores all number of ratings
 for i in range(len(data_full)):
     rating_count_tot.append(data_full.iloc[i]['rating_count_tot'])
-    
-#track_name_array[0]
 
+    
 pickle_input = rating_count_tot
-pickle.dump(pickle_input, open(path + "rating_count_tot.pickle", "wb"))
-pickle_output = pickle.load(open(path + "rating_count_tot.pickle", "rb"))
+pickle.dump(pickle_input, open(path_trained_model + "rating_count_tot.pickle", "wb"))
+pickle_output = pickle.load(open(path_trained_model + "rating_count_tot.pickle", "rb"))
 pickle_output[0]
 
 age_group = [] 
-## Array that stores all ratings
+## Array that stores all content rating
 for i in range(len(data_full)):
     age_group.append(data_full.iloc[i]['cont_rating'])
     
+
 pickle_input = age_group
-pickle.dump(pickle_input, open(path + "age_group.pickle", "wb"))
-pickle_output = pickle.load(open(path + "age_group.pickle", "rb"))
+pickle.dump(pickle_input, open(path_trained_model + "age_group.pickle", "wb"))
+pickle_output = pickle.load(open(path_trained_model + "age_group.pickle", "rb"))
 pickle_output[0]
 
 genre = [] 
@@ -355,6 +369,23 @@ for i in range(len(data_full)):
     genre.append(data_full.iloc[i]['prime_genre'])
     
 pickle_input = genre
-pickle.dump(pickle_input, open(path + "genre.pickle", "wb"))
-pickle_output = pickle.load(open(path + "genre.pickle", "rb"))
+pickle.dump(pickle_input, open(path_trained_model + "genre.pickle", "wb"))
+pickle_output = pickle.load(open(path_trained_model + "genre.pickle", "rb"))
 pickle_output[0]
+
+## Append all descriptions as it is from dataset, into a single array 
+## Removing the non-english descriptions and keeping them as " " i.e empty strings. Note that even after applying this filter, some non-english words were still in the vocabulary due to unknown reason
+## To show 2-3 lines of the unmodified app description of top 3 similar apps
+unmodified_description_array = []
+for i in range(len(data_full)):  
+    ## Detect language of current description
+    if detect(data_desc.iloc[i]['app_desc']) != 'en':
+        unmodified_description_array.append(" ")
+    else:
+        unmodified_description_array.append(data_desc.iloc[i]['app_desc'])
+        
+pickle_input = unmodified_description_array
+pickle.dump(pickle_input, open(path_trained_model + "unmodified_description_array.pickle", "wb"))
+pickle_output = pickle.load(open(path_trained_model + "unmodified_description_array.pickle", "rb"))
+pickle_output[1]
+
