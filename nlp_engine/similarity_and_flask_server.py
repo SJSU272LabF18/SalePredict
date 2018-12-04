@@ -2,15 +2,17 @@
 
 
 ## TO DO (3 Dec 2018 - 11:58 PM):
-## NOTE - What if description entered at the frontend has multiple " in it. Parse it correctly on the frontend to input the whole description into the server
+## NOTE - What if description entered at the frontend has multiple " in it. Parse it correctly to input the whole description into the find similarity
 ## 'Number of user that rated' calculation has to be corrected - Change installs_factor
-## Add to payload json -> under top 3 app -> 1-2 lines of description
-## If entered description is very small or is non-english - on frontend "Error: Please enter plain english detailed description"
+## Add to payload json -> under top 3 app -> 1-2 lines of description (with text summarization?)
+## If entered description is very small or is non-english - on frontend "Error: Please enter plain english detailed description" - with try catch block throw exception that frontend catches?
 ## If similarity of most similar app is less than 0.35 - on frontend "For better analytics, enter more description specific to your app idea"
 ## Show your apps pecentile/ranking w.r.t all other apps in the app store. And w.r.t genre as well?
 ## Put on CLoud
 ## Keep server running all the time. Straight away find similarity when pinged with description
 ## Find such description that will have average rating less than 3.0
+## When showing demo - remove history of searched
+
 
 
 import time
@@ -44,33 +46,36 @@ CORS(app)
 
 
 ## TO BE DONE AS SOON AS SERVER STARTS RUNNING i.e description_array file should be kept open and running even when nobody is pinging on enter description
-path = 'trained_model_-_pickle_and_np_sparse_files\\'
-## Load full description array
-description_array = pickle.load(open(path + "description_array.pickle", "rb"))
+
+path_trained_model = 'trained_model_-_pickle_and_np_sparse_files\\'
+## Load full modified description array
+description_array = pickle.load(open(path_trained_model + "description_array.pickle", "rb"))
+## Load full modified description array
+unmodified_description_array = pickle.load(open(path_trained_model + "unmodified_description_array.pickle", "rb"))
 ## Keep max_features the same as that training the model
 vectorizer = TfidfVectorizer(stop_words = 'english', max_features = 9500)   
 ## tokenize and build vocabulary
 vectorizer.fit(description_array)
 
 ## Load all rating array
-rating_array = pickle.load(open(path + "rating_array.pickle", "rb"))
+rating_array = pickle.load(open(path_trained_model + "rating_array.pickle", "rb"))
 #print (rating_array[0])
 
 ## Load all track name array
-track_name_array = pickle.load(open(path + "track_name_array.pickle", "rb"))
+track_name_array = pickle.load(open(path_trained_model + "track_name_array.pickle", "rb"))
 #print (track_name_array[0])
 
 ## Load rating count for each description
-rating_count_array = pickle.load(open(path + "rating_count_tot.pickle", "rb"))
+rating_count_array = pickle.load(open(path_trained_model + "rating_count_tot.pickle", "rb"))
 
 ## Load age group for each description
-age_group_array = pickle.load(open(path + "age_group.pickle", "rb"))
+age_group_array = pickle.load(open(path_trained_model + "age_group.pickle", "rb"))
 
 ## Load prime genre for each description
-genre = pickle.load(open(path + "genre.pickle", "rb"))
+genre = pickle.load(open(path_trained_model + "genre.pickle", "rb"))
 
 ## Load All Documents Encoded Sparse Array npz file
-sparse_matrix = scipy.sparse.load_npz(path + 'sparse_matrix_actual.npz')
+sparse_matrix = scipy.sparse.load_npz(path_trained_model + 'sparse_matrix_actual.npz')
 all_documents_encoded = sparse_matrix.todense()
 # Sometimes sparse_matrix.todense() shows memory error. But trying after some time it doesnt show error
 
@@ -379,7 +384,8 @@ def find_similarity(test_description_modified):
         top_3_document_rating = rating_array[(all_documents_similarity_sorted_topXpercent[k][1])]
         top_3_document_rating_count = rating_count_array[(all_documents_similarity_sorted_topXpercent[k][1])]
         top_3_this_document_installs = top_3_document_rating_count*(top_3_document_rating_count/installs_factor)
-        top_3_dict_concat = '{ "Name" : "'+top_3_document_name+'",  "Rating" : "'+str(top_3_document_rating)+'", "Similarity_Score" : "'+str(round(all_documents_similarity_sorted_topXpercent[k][0][0][0]*100))+'%", "This_Description" : "" }'
+        this_description_trunc = (unmodified_description_array[(all_documents_similarity_sorted_topXpercent[k][1])][0:350]).replace("\n", " ")+"..."
+        top_3_dict_concat = '{ "Name" : "'+top_3_document_name+'",  "Rating" : "'+str(top_3_document_rating)+'", "Similarity_Score" : "'+str(round(all_documents_similarity_sorted_topXpercent[k][0][0][0]*100))+'%", "This_Description" : "'+this_description_trunc+'" }'
         top_3_string_concat+=top_3_dict_concat+' ]'
         if (k!=2):   
             top_3_string_concat+=', '
@@ -452,15 +458,13 @@ if __name__ == '__main__':
 
 
 
-## SORT ONLY THOSE MUCH SIMILARITIES THAT ARE NEEDED - all_documents_similarity_sorted - dont sort all 7000 entires using the inbuilt sorted function - Tried this, did not significantly change the runtime
+## Tried this - SORT ONLY THOSE MUCH SIMILARITIES THAT ARE NEEDED - all_documents_similarity_sorted - dont sort all 7000 entires using the inbuilt sorted function - It did not significantly change the runtime
 ## LSH HASHING - BUCKETS 8-10 
 ## Sklearn KNN
 ## WHAT IF WE REMOVE POS and LEMMATIZATION PART AND DIRECTLY PASS test_description in find_similarity()
 ## WHAT IF WE USE inbuilt KNN function instead of COSINE SIMILARITY
-## WHAT IF WE REDUCE VOCAB SIZE TO 7000 or something like that - Tried this, it largely reduced the runtime with negligible change in accuracy. Also, try Text summarization? - Might decrease accuracy but also decrease running time
+## Tried this - WHAT IF WE REDUCE VOCAB SIZE TO 7000 or something like that - It largely reduced the runtime with negligible change in accuracy. Also, try Text summarization? - Might decrease accuracy but also decrease running time
 
-
-## UPDATE ON SERVER CODE
 
 ## Frontend display:
 ### Page 1:
@@ -481,6 +485,5 @@ if __name__ == '__main__':
 #### For more detailed analysis - Sign up for premium/login
 
 #### IMPORTANT NOTE - The feature that will make this system very helpful to the developers - Which functionality or "keyword" to add into your description/implementation to make it more successful, increase rating, number of installs, etc
-
 
 
