@@ -1,11 +1,23 @@
 ## Load trained model on server and serve the new description
 
+
+## TO DO (3 Dec 2018 - 11:58 PM):
 ## NOTE - What if description entered at the frontend has multiple " in it. Parse it correctly on the frontend to input the whole description into the server
+## 'Number of user that rated' calculation has to be corrected - Change installs_factor
+## Add to payload json -> under top 3 app -> 1-2 lines of description
+## If entered description is very small or is non-english - on frontend "Error: Please enter plain english detailed description"
+## If similarity of most similar app is less than 0.35 - on frontend "For better analytics, enter more description specific to your app idea"
+## Show your apps pecentile/ranking w.r.t all other apps in the app store. And w.r.t genre as well?
+## Put on CLoud
+## Keep server running all the time. Straight away find similarity when pinged with description
+## Find such description that will have average rating less than 3.0
 
 
 import time
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS ## To connect server with frontend
+import json
 
 from sklearn.feature_extraction.text import TfidfVectorizer ## TFIDF calculation
 from sklearn.metrics.pairwise import cosine_similarity
@@ -28,6 +40,7 @@ import scipy.sparse ## Convert sparse matrix to SciPy CSC matrix .npz
 app = Flask(__name__) 
 ## __name__ refers to main
 
+CORS(app)
 
 
 ## TO BE DONE AS SOON AS SERVER STARTS RUNNING i.e description_array file should be kept open and running even when nobody is pinging on enter description
@@ -326,12 +339,61 @@ def find_similarity(test_description_modified):
     print("\nPrime Genre: ", prime_genre)
     
     
+    ## Print rounded off final rating
+    print ("\nPredicted rating: ", round(final_rating, 2)) ## 2 decimal places
     
-    return final_rating
-   
-        
+    
+    
+       
+    if (final_rating >= 4): 
+        selling_ability = '"Selling_Ability" : "Excellent"'
+    elif(final_rating >= 3 and final_rating < 4):
+        selling_ability = '"Selling_Ability" : "Good"'
+    elif(final_rating >= 2 and final_rating < 3):
+        selling_ability = '"Selling_Ability" : "Average"'
+    elif(final_rating >= 1 and final_rating < 2):
+        selling_ability = '"Selling_Ability" : "Poor"'
+    
+    
+    frontend_json = ""
+    
+    ## Making a string containing all the output data in jsonic form
+    frontend_json+= '{ "Predicted_Rating" : '  + '"' + str(round(final_rating, 2)) + '",'
+    frontend_json+= ' ' + selling_ability
+    frontend_json+= ', "Detected_Genre" : ' +  '"' + prime_genre + '",'
+    frontend_json+= ' "Total_Installs" : ' +  '"' + str(int(total_users_that_rated*factor)) + '",'
+    frontend_json+= ' "Total_Users_That_Rated" : ' +  '"' + str(int(total_users_that_rated)) + '",'
+    
+    ## changing single quotes in users_by_rating_equalized_dict keys to double quotes
+    json_graph_dict_ratings = json.dumps(users_by_rating_equalized_dict)
+    json_graph_dict_age_group = json.dumps(users_by_ageGroup_dict) 
+    frontend_json+= ' "Graph_Users_By_Ratings" : ' +  '[ ' + json_graph_dict_ratings + ' ],'
+    frontend_json+= ' "Graph_Installs_By_Age_Group" : ' +  '[ ' + json_graph_dict_age_group + ' ],'
+    
+    
+    top_3_string_concat = "{ "
+    for k in range(0, 3):
+        top_3_string_concat+='"'+str(k+1)+'" : [ '
+        #print (top_3_string_concat)
+        top_3_document_name = track_name_array[(all_documents_similarity_sorted_topXpercent[k][1])]
+        top_3_document_rating = rating_array[(all_documents_similarity_sorted_topXpercent[k][1])]
+        top_3_document_rating_count = rating_count_array[(all_documents_similarity_sorted_topXpercent[k][1])]
+        top_3_this_document_installs = top_3_document_rating_count*(top_3_document_rating_count/installs_factor)
+        top_3_dict_concat = '{ "Name" : "'+top_3_document_name+'",  "Rating" : "'+str(top_3_document_rating)+'", "Similarity_Score" : "'+str(round(all_documents_similarity_sorted_topXpercent[k][0][0][0]*100))+'%", "This_Description" : "" }'
+        top_3_string_concat+=top_3_dict_concat+' ]'
+        if (k!=2):   
+            top_3_string_concat+=', '
+    top_3_string_concat+= " }"
+    
+    frontend_json+= ' "Top_3_Similar_Apps" : ' +  '[ '+ top_3_string_concat + ' ]'
+    frontend_json+= ' }'
+    
+    print ("FRONTEND\n")
+    
 
-        
+    
+    return frontend_json
+    
 
 @app.route('/') 
 ## Route '/' refers to http://127.0.0.1:5000/ i.e localhost
@@ -366,19 +428,16 @@ def json_description():
 
     test_description_modified = lemmatized_Description
   
-    final_rating = find_similarity(test_description_modified)
-    
-    ## Print rounded off final rating
-    print ("\nPredicted rating: ", round(final_rating, 2)) ## 2 decimal places
+    frontend_json = find_similarity(test_description_modified)
 
-    if (final_rating >= 3): 
-        print ("\nSUCCESS")
-    else:
-        print ("\nFAILURE")
+    ## Dumping payload string into a json file
+    payload_dump = json.dumps(frontend_json)
+    ## payload_dump has unnecessary '\' elements. To remove them load this json file into another json file
+    payload = json.loads(payload_dump)
         
     print("\n--- %s seconds ---" % (time.time() - start_time)) ## print runtime
 
-    return str(round(final_rating, 2)) ## prints on browser. As it is "printing" on browser therefore return type of json_description() must be string
+    return payload 
 
 
 
@@ -399,4 +458,29 @@ if __name__ == '__main__':
 ## WHAT IF WE REMOVE POS and LEMMATIZATION PART AND DIRECTLY PASS test_description in find_similarity()
 ## WHAT IF WE USE inbuilt KNN function instead of COSINE SIMILARITY
 ## WHAT IF WE REDUCE VOCAB SIZE TO 7000 or something like that - Tried this, it largely reduced the runtime with negligible change in accuracy. Also, try Text summarization? - Might decrease accuracy but also decrease running time
+
+
+## UPDATE ON SERVER CODE
+
+## Frontend display:
+### Page 1:
+#### Show success or failure
+#### show average rating rounded off
+#### Show your pecentile/ranking w.r.t all other apps in the app store. And w.r.t genre as well?
+#### Show genre of app
+#### Show potential number of total installs
+#### Show potential number of total users that will rate
+#### Selling potential by number of installs and rating. 1-2 - Wont sell, 2-3.5 medium sell, 3.5-4.5 - Good sell, 4.5-5... and so on
+### Page 2:
+#### show equalized graph of number of users by rating
+### Page 3:
+#### Pie/Bar Chart of number of users by age group
+### All pages:
+#### show top 3 apps similar and their description excript (most important text summarized?) and their similarity percentage,  and show only 1 or 2 or none if similarity less than 0.2? Showing their number of installs/user ratings doesnt give decent results
+#### Are the top 3 Free or paid? Mention. Whether you should put a prize on your app considering free and paid analysis of topXpercent apps?
+#### For more detailed analysis - Sign up for premium/login
+
+#### IMPORTANT NOTE - The feature that will make this system very helpful to the developers - Which functionality or "keyword" to add into your description/implementation to make it more successful, increase rating, number of installs, etc
+
+
 
