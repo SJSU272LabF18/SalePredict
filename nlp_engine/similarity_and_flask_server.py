@@ -147,16 +147,16 @@ def age_group_percent(users_by_ageGroup_dict, users_by_ageGroup_dict_percent, do
 
 def users_by_ageGroup_dict_modify_by_percentage(age_group, users_by_ageGroup_dict, document_weight):
     if(age_group == "4+" or age_group == None or age_group == "0"):
-        users_by_ageGroup_dict_percent = { "Children_5-13":0.05, "Teenager_13-18":0.25, "Adult_18-50":0.55, "Elderly_50+":0.15}
+        users_by_ageGroup_dict_percent = { "Children_5":0.05, "Teenager_13":0.25, "Adult_18":0.55, "Elderly_50":0.15}
         users_by_ageGroup_dict = age_group_percent(users_by_ageGroup_dict, users_by_ageGroup_dict_percent, document_weight)     
     elif(age_group == "9+"):
-        users_by_ageGroup_dict_percent = { "Children_5-13":0.03, "Teenager_13-18":0.27, "Adult_18-50":0.55, "Elderly_50+":0.15}
+        users_by_ageGroup_dict_percent = { "Children_5":0.03, "Teenager_13":0.27, "Adult_18":0.55, "Elderly_50":0.15}
         users_by_ageGroup_dict = age_group_percent(users_by_ageGroup_dict, users_by_ageGroup_dict_percent, document_weight)        
     elif(age_group == "12+"): 
-        users_by_ageGroup_dict_percent = { "Children_5-13":0.001, "Teenager_13-18":0.25, "Adult_18-50":0.599, "Elderly_50+":0.15}
+        users_by_ageGroup_dict_percent = { "Children_5":0.001, "Teenager_13":0.25, "Adult_18":0.599, "Elderly_50":0.15}
         users_by_ageGroup_dict = age_group_percent(users_by_ageGroup_dict, users_by_ageGroup_dict_percent, document_weight)        
     elif(age_group == "17+"): 
-        users_by_ageGroup_dict_percent = { "Children_5-13":0.0, "Teenager_13-18":0.05, "Adult_18-50":0.8, "Elderly_50+":0.15}
+        users_by_ageGroup_dict_percent = { "Children_5":0.0, "Teenager_13":0.05, "Adult_18":0.8, "Elderly_50":0.15}
         users_by_ageGroup_dict = age_group_percent(users_by_ageGroup_dict, users_by_ageGroup_dict_percent, document_weight)
     return users_by_ageGroup_dict        
         
@@ -256,7 +256,7 @@ def find_similarity(test_description_modified):
     users_by_rating_dict = { "1.0":0, "1.5":0, "2.0":0, "2.5":0, "3.0":0, "3.5":0, "4.0":0, "4.5":0, "5.0":0 }
     ## For equalized 'number of users' - apple app store lets you rate with integers from 1 - 5 
     users_by_rating_equalized_dict = { "One":0, "Two":0, "Three":0, "Four":0, "Five":0 }
-    users_by_ageGroup_dict = { "Children_5-13":0, "Teenager_13-18":0, "Adult_18-50":0, "Elderly_50+":0}
+    users_by_ageGroup_dict = { "Children_5":0, "Teenager_13":0, "Adult_18":0, "Elderly_50":0}
     total_users_that_rated = 0
     ## Arbitrary installs factor value, , through intuition - Apple dataset does not contain information about total installs so have to calculate an average value assuming that every 1 person among 'total_users_that_rated/installs_factor' number of persons rates the app
     installs_factor = 250 ## depends on topXpercent

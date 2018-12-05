@@ -3,6 +3,8 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import MainPage from './MainPage';
 import Home from './Home';
 import RatingsChart from './RatingsChart';
+import AgeGroupChart from './AgeGroupChart';
+
 
 // import Create from './Create/Create';
 // import Navbar2 from './Navbar/Navbar2';
@@ -15,6 +17,8 @@ class Main extends Component {
                 <Route path="/mainpage" component={MainPage} />
                 <Route path="/home" component={Home} />
                 <Route path="/ratingschart" component={RatingsChart} />
+                <Route path="/agegroupchart" component={AgeGroupChart} />
+
             </div>
         )
     }
