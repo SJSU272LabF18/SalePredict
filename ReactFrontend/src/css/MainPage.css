@@ -1,40 +1,39 @@
 .mainpage{
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: black;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: black;
 }
 
 .bg-img {
-    background-image: url("/cmpe272app/public/QiAMG0g.png");
-    min-width: 50%;
-    min-height: 10vh;
-    margin-right:50%;
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-    opacity: 0.4;
-  }
-  .mainpage-textarea{
-    margin-left: 50%;
-      width:150%;
-      height:150px;
-      border-radius:12px;
-  }
+  background-image: url("/cmpe272app/public/QiAMG0g.png");
+  min-width: 50%;
+  min-height: 10vh;
+  margin-right:50%;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  opacity: 0.4;
+}
+.mainpage-textarea{
+  margin-left: 50%;
+    width:150%;
+    height:150px;
+    border-radius:12px;
+}
 
-  .mainpage-btn{
-    margin-left: 210%;
-    margin-top: -70%;
-  }
+.mainpage-btn{
+  margin-left: 210%;
+  margin-top: -70%;
+}
 
-  .main-desc{
-    margin-bottom: 20%;
-    margin-top: -30%;
+.main-desc{
+  margin-bottom: 20%;
+  margin-top: -30%;
 
-  }
-
+}

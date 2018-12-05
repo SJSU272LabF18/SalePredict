@@ -174,31 +174,31 @@ def rating_percent(users_by_rating_equalized_dict, users_by_rating_equalized_dic
 def users_by_rating_equalized_dict_modify_by_percentage(document_rating, users_by_rating_equalized_dict, document_weight):
     
     if(document_rating == "1" or document_rating == "1.0"):
-        users_by_rating_equalized_dict_percent = { "1.0":1, "2.0":0, "3.0":0, "4.0":0, "5.0":0 }
+        users_by_rating_equalized_dict_percent = { "One":1, "Two":0, "Three":0, "Four":0, "Five":0 }
         users_by_rating_equalized_dict = rating_percent(users_by_rating_equalized_dict, users_by_rating_equalized_dict_percent, document_weight)     
     elif(document_rating == "1.5"):
-        users_by_rating_equalized_dict_percent =  { "1.0":0.5, "2.0":0.5, "3.0":0, "4.0":0, "5.0":0 }
+        users_by_rating_equalized_dict_percent =  { "One":0.5, "Two":0.5, "Three":0, "Four":0, "Five":0 }
         users_by_rating_equalized_dict = rating_percent(users_by_rating_equalized_dict, users_by_rating_equalized_dict_percent, document_weight)     
     elif(document_rating == "2" or document_rating == "2.0"):
-        users_by_rating_equalized_dict_percent =  { "1.0":0.25, "2.0":0.5, "3.0":0.25, "4.0":0, "5.0":0 }
+        users_by_rating_equalized_dict_percent =  { "One":0.25, "Two":0.5, "Three":0.25, "Four":0, "Five":0 }
         users_by_rating_equalized_dict = rating_percent(users_by_rating_equalized_dict, users_by_rating_equalized_dict_percent, document_weight)     
     elif(document_rating == "2.5"):
-        users_by_rating_equalized_dict_percent =  { "1.0":0.2, "2.0":0.3, "3.0":0.3 ,"4.0":0.2, "5.0":0 }
+        users_by_rating_equalized_dict_percent =  { "One":0.2, "Two":0.3, "Three":0.3 ,"Four":0.2, "Five":0 }
         users_by_rating_equalized_dict = rating_percent(users_by_rating_equalized_dict, users_by_rating_equalized_dict_percent, document_weight)     
     elif(document_rating == "3" or document_rating == "3.0"):
-        users_by_rating_equalized_dict_percent =  { "1.0":0.05, "2.0":0.15, "3.0":0.5, "4.0":0.15, "5.0":0.05 }
+        users_by_rating_equalized_dict_percent =  { "One":0.05, "Two":0.15, "Three":0.5, "Four":0.15, "Five":0.05 }
         users_by_rating_equalized_dict = rating_percent(users_by_rating_equalized_dict, users_by_rating_equalized_dict_percent, document_weight)     
     elif(document_rating == "3.5"):
-        users_by_rating_equalized_dict_percent =  { "1.0":0, "2.0":0.2, "3.0":0.3, "4.0":0.3, "5.0":0.2 }
+        users_by_rating_equalized_dict_percent =  { "One":0, "Two":0.2, "Three":0.3, "Four":0.3, "Five":0.2 }
         users_by_rating_equalized_dict = rating_percent(users_by_rating_equalized_dict, users_by_rating_equalized_dict_percent, document_weight)     
     elif(document_rating == "4" or document_rating == "4.0"):
-        users_by_rating_equalized_dict_percent =  { "1.0":0, "2.0":0, "3.0":0.25, "4.0":0.5, "5.0":0.25 }
+        users_by_rating_equalized_dict_percent =  { "One":0, "Two":0, "Three":0.25, "Four":0.5, "Five":0.25 }
         users_by_rating_equalized_dict = rating_percent(users_by_rating_equalized_dict, users_by_rating_equalized_dict_percent, document_weight)     
     elif(document_rating == "4.5"):
-        users_by_rating_equalized_dict_percent =  { "1.0":0, "2.0":0, "3.0":0, "4.0":0.5, "5.0":0.5 }
+        users_by_rating_equalized_dict_percent =  { "One":0, "Two":0, "Three":0, "Four":0.5, "Five":0.5 }
         users_by_rating_equalized_dict = rating_percent(users_by_rating_equalized_dict, users_by_rating_equalized_dict_percent, document_weight)     
     elif(document_rating == "5" or document_rating == "5.0"):
-        users_by_rating_equalized_dict_percent =  { "1.0":0, "2.0":0, "3.0":0, "4.0":0, "5.0":1 }
+        users_by_rating_equalized_dict_percent =  { "One":0, "Two":0, "Three":0, "Four":0, "Five":1 }
         users_by_rating_equalized_dict = rating_percent(users_by_rating_equalized_dict, users_by_rating_equalized_dict_percent, document_weight)     
     return users_by_rating_equalized_dict        
         
@@ -255,7 +255,7 @@ def find_similarity(test_description_modified):
     total_weighted_rating = 0
     users_by_rating_dict = { "1.0":0, "1.5":0, "2.0":0, "2.5":0, "3.0":0, "3.5":0, "4.0":0, "4.5":0, "5.0":0 }
     ## For equalized 'number of users' - apple app store lets you rate with integers from 1 - 5 
-    users_by_rating_equalized_dict = { "1.0":0, "2.0":0, "3.0":0, "4.0":0, "5.0":0 }
+    users_by_rating_equalized_dict = { "One":0, "Two":0, "Three":0, "Four":0, "Five":0 }
     users_by_ageGroup_dict = { "Children_5-13":0, "Teenager_13-18":0, "Adult_18-50":0, "Elderly_50+":0}
     total_users_that_rated = 0
     ## Arbitrary installs factor value, , through intuition - Apple dataset does not contain information about total installs so have to calculate an average value assuming that every 1 person among 'total_users_that_rated/installs_factor' number of persons rates the app
@@ -417,33 +417,39 @@ def test(name):
 @app.route('/json_description', methods=['POST']) 
 def json_description():
     
-    start_time = time.time() ## start runtime for description entered
-    
-    print ("Hey") ## prints on console
-    content = request.json ## request json data from body
-    #print (content['description']) ## print on console, json data which has"description" as key
-    #return jsonify(content) ## prints on browser, json syntax that was POSTed
-    test_description = content['description']
-    
+	start_time = time.time() ## start runtime for description entered
 
-    if detect(test_description) != 'en':
-        return "Error: Please enter plain english detailed description"
-    else:
-        ## POS Tagging and Lemmatization
-        lemmatized_Description = lemmatizeDescription(test_description)
+	print ("Hey") ## prints on console
+	content = request.data ## request json data from body
+	jsondata = json.loads(content)
+	#print (content)
+	#print (jsondata)
+	#print (content['description']) ## print on console, json data which has"description" as key
+	#return jsonify(content) ## prints on browser, json syntax that was POSTed
+	#test_description = content['description']
+	test_description = jsondata['description']
+	test_description = test_description.replace("\n"," ")
+	print (test_description)
 
-    test_description_modified = lemmatized_Description
-  
-    frontend_json = find_similarity(test_description_modified)
 
-    ## Dumping payload string into a json file
-    payload_dump = json.dumps(frontend_json)
-    ## payload_dump has unnecessary '\' elements. To remove them load this json file into another json file
-    payload = json.loads(payload_dump)
-        
-    print("\n--- %s seconds ---" % (time.time() - start_time)) ## print runtime
+	if detect(test_description) != 'en':
+		return "Error: Please enter plain english detailed description"
+	else:
+		## POS Tagging and Lemmatization
+		lemmatized_Description = lemmatizeDescription(test_description)
 
-    return payload 
+	test_description_modified = lemmatized_Description
+
+	frontend_json = find_similarity(test_description_modified)
+
+	## Dumping payload string into a json file
+	payload_dump = json.dumps(frontend_json)
+	## payload_dump has unnecessary '\' elements. To remove them load this json file into another json file
+	payload = json.loads(payload_dump)
+		
+	print("\n--- %s seconds ---" % (time.time() - start_time)) ## print runtime
+
+	return payload 
 
 
 

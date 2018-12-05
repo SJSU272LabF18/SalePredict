@@ -6,9 +6,9 @@ class RatingsChart extends Component {
         super(props);
         this.state = {
             chartData: {
-                labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford'],
+                labels: ['1.0', '2.0', '3.0', '4.0', '5.0'],
                 datasets: [{
-                    label: 'Population',
+                    label: 'Ratings',
                     data: [
                         617594,
                         181045,
@@ -31,8 +31,13 @@ class RatingsChart extends Component {
             }
         }
     }
-    componenentDidMount() {
+    componentDidMount() {
+        console.log("In compoennt did mount")
 
+        var value = localStorage.getItem("data");
+        // var parsedValue = JSON.parse(value)
+        console.log("value " + value)
+        console.log(value.Graph_Users_By_Ratings)
     }
     render() {
         return (
@@ -42,7 +47,7 @@ class RatingsChart extends Component {
                         maintainAspectRatio: true,
                         title: {
                             display: true,
-                            text: 'Largest Cities In Massachusetts',
+                            text: 'Graph by User Ratings',
                             fontSize: 25
                         },
 
