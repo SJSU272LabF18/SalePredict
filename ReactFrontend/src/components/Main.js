@@ -4,6 +4,7 @@ import MainPage from './MainPage';
 import Home from './Home';
 import RatingsChart from './RatingsChart';
 import AgeGroupChart from './AgeGroupChart';
+import Predictions from './Predictions';
 
 
 // import Create from './Create/Create';
@@ -18,6 +19,7 @@ class Main extends Component {
                 <Route path="/home" component={Home} />
                 <Route path="/ratingschart" component={RatingsChart} />
                 <Route path="/agegroupchart" component={AgeGroupChart} />
+                <Route path="/predictions" component={Predictions} />
 
             </div>
         )

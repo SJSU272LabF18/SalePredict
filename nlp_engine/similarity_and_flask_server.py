@@ -378,14 +378,14 @@ def find_similarity(test_description_modified):
     
     top_3_string_concat = "{ "
     for k in range(0, 3):
-        top_3_string_concat+='"'+str(k+1)+'" : [ '
+        top_3_string_concat+='"'+'One'+str(k+1)+'" : [ '
         #print (top_3_string_concat)
         top_3_document_name = track_name_array[(all_documents_similarity_sorted_topXpercent[k][1])]
         top_3_document_rating = rating_array[(all_documents_similarity_sorted_topXpercent[k][1])]
         top_3_document_rating_count = rating_count_array[(all_documents_similarity_sorted_topXpercent[k][1])]
         top_3_this_document_installs = top_3_document_rating_count*(top_3_document_rating_count/installs_factor)
         this_description_trunc = (unmodified_description_array[(all_documents_similarity_sorted_topXpercent[k][1])][0:350]).replace("\n", " ")+"..."
-        top_3_dict_concat = '{ "Name" : "'+top_3_document_name+'",  "Rating" : "'+str(top_3_document_rating)+'", "Similarity_Score" : "'+str(round(all_documents_similarity_sorted_topXpercent[k][0][0][0]*100))+'%", "This_Description" : "'+this_description_trunc+'" }'
+        top_3_dict_concat = '{ "Name" : "Name: '+top_3_document_name+'",  "Rating" : "Rating: '+str(top_3_document_rating)+'", "Similarity_Score" : "Similarity Score: '+str(round(all_documents_similarity_sorted_topXpercent[k][0][0][0]*100))+'%", "This_Description" : "Description: '+this_description_trunc+'" }'
         top_3_string_concat+=top_3_dict_concat+' ]'
         if (k!=2):   
             top_3_string_concat+=', '

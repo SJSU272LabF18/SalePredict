@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../css/MainPage.css';
 import { Link } from 'react-router-dom';
-
-import { Navbar, Nav, NavDropdown, MenuItem, FormGroup, FormControl, InputGroup, DropdownButton } from 'react-bootstrap';
-
+import { Navbar } from 'react-bootstrap';
+import Predictions from './Predictions';
 import AgeGroupChart from './AgeGroupChart';
 import RatingsChart from './RatingsChart';
 
@@ -70,14 +69,16 @@ class MainPage extends Component {
                             <p> Insights</p>
 
                             <li>
-                                <a href="#userratings" data-toggle="tab" >User Ratings</a>
+                                <a href="#predictions" data-toggle="tab" >Predictions</a>
+
 
                             </li>
                             <li>
                                 <a href="#agegroup" data-toggle="tab" >Age Group</a>
                             </li>
                             <li>
-                                <a href="#predictions" data-toggle="tab" >Predictions</a>
+                                <a href="#userratings" data-toggle="tab" >User Ratings</a>
+
                             </li>
                         </ul>
 
@@ -97,7 +98,12 @@ class MainPage extends Component {
                             </div>
                         </nav>
                         <div class="tab-content">
-                            <div id="userratings" class="tab-pane fade in active">
+                            <div id="predictions" class="tab-pane fade in active">
+                                <h3>Predictions</h3>
+                                <Predictions />
+
+                            </div>
+                            <div id="userratings" class="tab-pane fade">
                                 <h3>User Ratings</h3>
                                 <RatingsChart />
                             </div>
@@ -105,10 +111,7 @@ class MainPage extends Component {
                                 <h3>Age Group </h3>
                                 <AgeGroupChart />
                             </div>
-                            <div id="predictions" class="tab-pane fade">
-                                <h3>Predictions</h3>
 
-                            </div>
 
                         </div>
                     </div>

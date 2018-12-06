@@ -55,7 +55,7 @@ class RatingsChart extends Component {
     }
     render() {
         return (
-            <div className='container'>
+            <div className='container container-graph'>
                 <Bar data={this.state.chartData}
                     options={{
                         maintainAspectRatio: true,

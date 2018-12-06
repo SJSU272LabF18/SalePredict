@@ -53,7 +53,7 @@ class AgeGroupChart extends Component {
     }
     render() {
         return (
-            <div className='container'>
+            <div className='container container-graph'>
                 <Pie data={this.state.chartData}
                     options={{
                         maintainAspectRatio: true,
