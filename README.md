@@ -8,7 +8,7 @@ Sayalee Shankar Bhusari
 
 ## Team Name: Phoenix
 
-### Approved Project Idea: Will It Sell? - App Success Predictor Engine
+### Approved Project Idea: Will It Sell? - Mobile Application Success Prediction System
 
 Description: Ever made an app that got you pulling all-nighters for weeks, only to get the lowest possible ranking on the app store? Feels terrible, right? Next time you build an app, use this prediction system to assess the success of your app before you start banging away at your keyboard to get that app on the app store. Our prediction system analyses the app description you provide and it provides you back with the detailed analysis of your app's potential selling quotient.
 
