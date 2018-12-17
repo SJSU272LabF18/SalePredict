@@ -10,7 +10,7 @@ Sayalee Shankar Bhusari
 
 ### Approved Project Idea: Will It Sell? - Mobile Application Success Prediction System
 
-Description: Ever made an app that got you pulling all-nighters for weeks, only to get the lowest possible ranking on the app store? Feels terrible, right? Next time you build an app, use this prediction system to assess the success of your app before you start banging away at your keyboard to get that app on the app store. Our prediction system analyses the app description you provide and it provides you back with the detailed analysis of your app's potential selling quotient.
+Description: Ever made an app that got you pulling all-nighters for weeks, only to get the lowest possible ranking on the app store? Feels terrible, right? Next time you build an app, use this prediction system to assess the success of your app before you start banging away at your keyboard to get that app on the app store. Our prediction system analyses the app description you provide and it provides you back with the detailed analysis of your app's potential selling quotient. With the help of this detailed report, the app developers can adapt their app with respect to the market trend, so as to increase the selling ability of the app.
 
 
 Methodology: 
