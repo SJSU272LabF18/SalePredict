@@ -12,7 +12,14 @@ Sayalee Shankar Bhusari
 
 Description: Ever made an app that got you pulling all-nighters for weeks, only to get the lowest possible ranking on the app store? Feels terrible, right? Next time you build an app, use this prediction system to assess the success of your app before you start banging away at your keyboard to get that app on the app store. Our prediction system analyses the app description you provide and it provides you back with the detailed analysis of your app's potential selling quotient.
 
-Methodology: Apply Natural Language Processing on the App Store dataset to find the K-Nearest Neighbours of the new description entered, using TFIDF of the descriptions in the dataset and their Cosine Similarities with respect to the new description. Our system analyses the new description entered and determines the probable outcome as success or failure and the detailed analysis such as the potential app store rating and so on.
+
+Methodology: 
+
+- Prediction systems are rooted on logic-based deductions. In the ideal case, all the apps that are very similar should perform equally on the app store. This is the fundamental idea behind our prediction model. 
+- As we include real world constraints such as age-group focus area, geographical focus area, app size, and so on, into the model, it gets closer to the actual market performance. 
+- To find the similar descriptions, we apply Natural Language Processing on the App Store dataset to find the Nearest Neighbours of the new description entered, using TFIDF of the descriptions in the dataset and their Cosine Similarities with respect to the new description. 
+- Our system analyses the new description entered and determines the detailed analysis such as the potential app store rating, total number of installs, top similar apps, and so on.
+
 
 Dataset: https://www.kaggle.com/ramamet4/app-store-apple-data-set-10k-apps
 
