@@ -1,9 +1,3 @@
-## COMMENT THIS AND ALPHA AND CHECK BETA AND REMOVE BETA
-## COMMENT PICKLE AND SCIPY BOTH USED
-## COMMENT WHY rating_array and track_name_array used and all other trained model are being used
-## Move rating_array code and pickle codes up
-
-
 from sklearn.feature_extraction.text import TfidfVectorizer ## TFIDF calculation
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction import text
@@ -388,4 +382,12 @@ pickle_input = unmodified_description_array
 pickle.dump(pickle_input, open(path_trained_model + "unmodified_description_array.pickle", "wb"))
 pickle_output = pickle.load(open(path_trained_model + "unmodified_description_array.pickle", "rb"))
 pickle_output[1]
+
+
+## COMMENT THIS AND ALPHA AND CHECK BETA AND REMOVE BETA
+## COMMENT PICKLE AND SCIPY BOTH USED
+## COMMENT WHY rating_array and track_name_array used and all other trained model are being used
+## Move rating_array code and pickle codes up
+
+
 
