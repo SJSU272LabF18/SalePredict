@@ -1,20 +1,6 @@
 ## Load trained model on server and serve the new description
 
 
-## TO DO (3 Dec 2018 - 11:58 PM):
-## NOTE - What if description entered at the frontend has multiple " in it. Parse it correctly to input the whole description into the find similarity
-## 'Number of user that rated' calculation has to be corrected - Change installs_factor
-## Add to payload json -> under top 3 app -> 1-2 lines of description (with text summarization?)
-## If entered description is very small or is non-english - on frontend "Error: Please enter plain english detailed description" - with try catch block throw exception that frontend catches?
-## If similarity of most similar app is less than 0.35 - on frontend "For better analytics, enter more description specific to your app idea"
-## Show your apps pecentile/ranking w.r.t all other apps in the app store. And w.r.t genre as well?
-## Put on CLoud
-## Keep server running all the time. Straight away find similarity when pinged with description
-## Find such description that will have average rating less than 3.0
-## When showing demo - remove history of searched
-
-
-
 import time
 
 from flask import Flask, request, jsonify
@@ -492,4 +478,16 @@ if __name__ == '__main__':
 
 #### IMPORTANT NOTE - The feature that will make this system very helpful to the developers - Which functionality or "keyword" to add into your description/implementation to make it more successful, increase rating, number of installs, etc
 
+
+## TO DO (3 Dec 2018 - 11:58 PM):
+## NOTE - What if description entered at the frontend has multiple " in it. Parse it correctly to input the whole description into the find similarity
+## 'Number of user that rated' calculation has to be corrected - Change installs_factor
+## Add to payload json -> under top 3 app -> 1-2 lines of description (with text summarization?)
+## If entered description is very small or is non-english - on frontend "Error: Please enter plain english detailed description" - with try catch block throw exception that frontend catches?
+## If similarity of most similar app is less than 0.35 - on frontend "For better analytics, enter more description specific to your app idea"
+## Show your apps pecentile/ranking w.r.t all other apps in the app store. And w.r.t genre as well?
+## Put on CLoud
+## Keep server running all the time. Straight away find similarity when pinged with description
+## Find such description that will have average rating less than 3.0
+## When showing demo - remove history of searched
 
