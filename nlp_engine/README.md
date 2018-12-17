@@ -1,0 +1,5 @@
+This folder contains the Natural Language Processing Model and the Flask Server program files.
+
+- **Model Training:** *sklearn_model_training_(alpha).py* file contains the model training code. Each description in the dataset is Tokenized and Lemmatized, then the TfidfVectorizer forms the vocabulary and transform each description into a Tfidf sparse array. These arrays are combined to form a sparse matrix which is stored as an npz file (lighter and faster than pickling). All the other data that a new description would require to make a prediction, is stored as pickled files in the *trained_model_-_pickle_and_np_sparse_files* folder.
+- **Prediction Output and Flask Server:** *similarity_and_flask_server.py* file contains the Flask Server code that takes in the user input from the Front-end and feeds it into the trained model files, which are loaded at the start of the server. This file also generates the prediction, and sends the prediction output to the Front-end as JSON. 
+- **Test Files:** *test_files* folder contains all different algorithms and snippets that were tried and tested during the model building procedure.
